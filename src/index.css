@@ -479,3 +479,13 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
 }
 .side h3 { height: 22px; display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; }
 .foot-sep { margin: 0 8px; opacity: .5; }
+
+/* Логотип в шапке: иконка сурка + название; на телефоне — только иконка */
+.brand { display: inline-flex; align-items: center; gap: 10px; }
+.brand-icon { width: 34px; height: auto; flex-shrink: 0; }
+.topbar { gap: 12px; }
+.top-actions { min-width: 0; }
+@media (max-width: 560px) {
+  .brand-text { display: none; }
+  .brand-icon { width: 40px; }
+}

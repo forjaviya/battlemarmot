@@ -14,7 +14,7 @@ import { Stats } from './screens/Stats';
 import { Rules } from './screens/Rules';
 import { AuthModal } from './screens/AuthModal';
 import { Backdrop } from './ui/Scenery';
-import { PixelSprite, SPEAKER, SPEAKER_OFF } from './ui/sprites';
+import { BABY, PixelSprite, SPEAKER, SPEAKER_OFF } from './ui/sprites';
 
 type Screen = 'home' | 'setup' | 'battle' | 'result' | 'stats' | 'rules';
 
@@ -58,7 +58,7 @@ export default function App() {
     <div className="app">
       <Backdrop />
       <header className="topbar">
-        <button className="brand" onClick={() => setScreen('home')}>{APP_NAME}</button>
+        <button className="brand" onClick={() => setScreen('home')} aria-label={APP_NAME}><PixelSprite rows={BABY} className="brand-icon" /><span className="brand-text">{APP_NAME}</span></button>
         <div className="top-actions">
           <button
             className="icon-btn"
