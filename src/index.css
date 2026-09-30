@@ -401,3 +401,18 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
 .oc-score b { font-family: var(--font-title); font-weight: 400; font-size: 16px; color: var(--accent); }
 .setup-toolbar { margin-bottom: 10px; }
 @media (max-width: 760px) { .dock { margin-top: 0 !important; } }
+
+.flyer.rare { animation-name: flyrare; }
+@keyframes flyrare { 0% { translate: -80px 0; } 33% { translate: calc(100vw + 40px) 0; } 100% { translate: calc(100vw + 40px) 0; } }
+.flyer .portrait.sway svg { animation: sway 2.6s ease-in-out infinite !important; transform-origin: 50% 0; }
+@keyframes sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+.px-play { width: 10px; height: 12px; background: currentColor; clip-path: polygon(0 0, 0 100%, 100% 50%); flex-shrink: 0; }
+.opp-easy .opp-level { color: #4f9a2e; }
+.opp-normal .opp-level { color: #d9731a; }
+.opp-hard .opp-level { color: #6a4cb4; }
+.f-icon { align-items: center; }
+.f-icon svg { height: 34px; width: auto; }
+.dock-item { padding: 6px 10px; }
+.dock-name { line-height: 1.15; }
+.dock .btn.primary.big { padding: 14px 20px; }

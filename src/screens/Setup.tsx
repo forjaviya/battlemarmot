@@ -101,6 +101,10 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
           Повернуть: {orientation === 'h' ? 'лёжа' : 'столбиком'}
         </button>
         <button className="btn small" onClick={() => { setPlaced(randomFleet()); setSelected(null); sfx.place(); }}>Случайно</button>
+      {lastLayout && lastLayout.length === FLEET.length && (
+        <button className="btn small" onClick={() => { setPlaced(lastLayout); sfx.place(); }}>Как в прошлый раз</button>
+      )}
+      <button className="btn ghost small" onClick={() => { setPlaced([]); setSelected(0); }} disabled={!placed.length}>Очистить</button>
       </div>
       <div className="setup-grid">
         <div className={shake ? 'shake' : ''}>
@@ -132,19 +136,13 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
                 <div className="dock-sprite" style={{ width: `${len * 22}px`, height: '22px' }}>
                   <Marmot length={len} orientation="h" />
                 </div>
-                <span className="dock-name">{MARMOT_NAMES[len]}</span>
+                <span className="dock-name">{len === 4 ? <>Длинно-<br />сурок</> : MARMOT_NAMES[len]}</span>
                 <span className="dock-count">×{ids.length}</span>
               </button>
             ))}
           </div>
-          <div className="dock-actions">
-            {lastLayout && lastLayout.length === FLEET.length && (
-              <button className="btn" onClick={() => { setPlaced(lastLayout); sfx.place(); }}>Как в прошлый раз</button>
-            )}
-            <button className="btn ghost" onClick={() => { setPlaced([]); setSelected(0); }} disabled={!placed.length}>Очистить</button>
-          </div>
           <button className="btn primary big" disabled={!done} onClick={() => { sfx.found(); onStart(placed); }}>
-            Начать прятки!
+            Начать
           </button>
         </div>
       </div>

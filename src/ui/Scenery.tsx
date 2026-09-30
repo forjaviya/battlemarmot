@@ -39,10 +39,12 @@ export function Backdrop() {
 
 const BALLOONS = [
   { top: 0, dur: 34, delay: -6, size: 1, color: '#e0413b', who: 'marmot' as const },
-  { top: 4, dur: 44, delay: -18, size: 1.15, color: '#d44e00', who: 'normal' as const },
-  { top: 2, dur: 58, delay: -40, size: 0.7, color: '#f6e7c8', who: 'easy' as const },
-  { top: 7, dur: 40, delay: -31, size: 0.85, color: '#ffd23f', who: 'hard' as const },
-  { top: 5, dur: 66, delay: -52, size: 0.6, color: '#8fd06a', who: 'marmot' as const },
+  { top: 5, dur: 48, delay: -30, size: 0.75, color: '#fff8e8', who: 'marmot' as const },
+  { top: 3, dur: 60, delay: -44, size: 0.65, color: '#ffd23f', who: 'marmot' as const },
+  // соперники пролетают редко: пересекают экран за первую треть цикла, потом долго «за кадром»
+  { top: 6, dur: 90, delay: -5, size: 0.9, color: '#ffd23f', who: 'normal' as const, rare: true },
+  { top: 2, dur: 90, delay: -35, size: 0.8, color: '#fff8e8', who: 'easy' as const, rare: true },
+  { top: 8, dur: 90, delay: -65, size: 0.95, color: '#e0413b', who: 'hard' as const, rare: true },
 ];
 
 /** Сурки на воздушных шариках пролетают над степью. */
@@ -50,10 +52,10 @@ export function FlyingMarmots() {
   return (
     <div className="flyers" aria-hidden>
       {BALLOONS.map((b, i) => (
-        <div key={i} className="flyer" style={{ top: `${b.top}%`, animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s`, ['--s' as string]: b.size }}>
+        <div key={i} className={`flyer ${'rare' in b ? 'rare' : ''}`} style={{ top: `${b.top}%`, animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s`, ['--s' as string]: b.size }}>
           <div className="flyer-bob" style={{ animationDelay: `${-i * 0.7}s` }}>
             <PixelSprite rows={BALLOON} pal={{ r: b.color }} className="balloon" />
-            {b.who === 'marmot' ? <PixelSprite rows={BABY} className="hanger" /> : <Portrait who={b.who} mood={b.who === 'hard' ? 'smug' : 'happy'} size={52} className="hanger" />}
+            {b.who === 'marmot' ? <PixelSprite rows={BABY} className="hanger" /> : <Portrait who={b.who} mood={b.who === 'hard' ? 'smug' : 'alert'} shades={b.who === 'hard'} size={52} className="hanger sway" />}
           </div>
         </div>
       ))}
@@ -132,7 +134,7 @@ export function SteppeParade() {
         </button>
       ))}
       <div className="sleeper" onClick={wake}>
-        {awake ? <span className="grr">хмф!</span> : <span className="zzz">z<span>z</span><span>z</span></span>}
+        {awake ? <span className="grr">#!&amp;</span> : <span className="zzz">z<span>z</span><span>z</span></span>}
         <div className={awake ? 'hop' : ''}><Marmot length={4} orientation="h" face={awake ? 'grumpy' : 'sleep'} /></div>
       </div>
     </div>

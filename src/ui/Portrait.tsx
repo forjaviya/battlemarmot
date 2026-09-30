@@ -129,7 +129,7 @@ function Rects({ px, cls }: { px: Px[]; cls?: string }) {
   );
 }
 
-export function Portrait({ who, mood = 'neutral', size = 64, className, thinking }: { who: Difficulty; mood?: Mood; size?: number; className?: string; thinking?: boolean }) {
+export function Portrait({ who, mood = 'neutral', size = 64, className, thinking, shades }: { who: Difficulty; mood?: Mood; size?: number; className?: string; thinking?: boolean; shades?: boolean }) {
   const base = BASES[who];
   const rects = [];
   for (let y = 0; y < 16; y++)
@@ -142,7 +142,19 @@ export function Portrait({ who, mood = 'neutral', size = 64, className, thinking
     <div className={`portrait p-${who} mood-${mood} ${className ?? ''}`} style={{ width: size, height: size }}>
       <svg viewBox="-1 -3 18 20" width={size} height={size} shapeRendering="crispEdges" aria-hidden>
         {rects}
-        <Rects px={EYES[mood]} cls="eyes" />
+        {shades ? (
+          <g>
+            <rect x={1} y={5} width={14} height={1} fill="#111" />
+            <rect x={2} y={6} width={5} height={2} fill="#111" />
+            <rect x={9} y={6} width={5} height={2} fill="#111" />
+            <rect x={3} y={6} width={1} height={1} fill="#6f8fbf" />
+            <rect x={10} y={6} width={1} height={1} fill="#6f8fbf" />
+            <rect x={3} y={8} width={3} height={1} fill="#111" />
+            <rect x={10} y={8} width={3} height={1} fill="#111" />
+          </g>
+        ) : (
+          <Rects px={EYES[mood]} cls="eyes" />
+        )}
         <Rects px={MOUTH[who][mood] ?? []} />
         {sweat && (
           <g className="sweat">

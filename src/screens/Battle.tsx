@@ -55,7 +55,7 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
       else if (res.result === 'hit') { sfx.hit(); setMsg(`${opp.fem ? 'Нашла' : 'Нашёл'} хвостик на ${where}!`); setMobileView('own'); }
       else { sfx.found(); setMsg(`${opp.fem ? 'Нашла' : 'Нашёл'} твоего сурка на ${where}!`); setMobileView('own'); }
       setGame(res.state);
-    }, AI_DELAY);
+    }, game.log[game.log.length - 1]?.by === 'ai' && game.log[game.log.length - 1]?.result === 'sunk' ? AI_DELAY + 1000 : AI_DELAY);
     return () => clearTimeout(t);
   }, [game, opp.name, setGame]);
 
