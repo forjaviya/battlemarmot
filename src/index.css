@@ -445,3 +445,16 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
   .tb-actions { grid-auto-flow: row; grid-template-columns: 1fr 1fr; gap: 8px 10px; justify-content: stretch; }
   .tb-actions .btn { width: calc(100% - 6px); }
 }
+
+/* Второстепенная кнопка: без заливки, пунктирная рамка */
+.btn.subtle { --bg: transparent; --bg-d: transparent; color: var(--ink-soft); box-shadow: none; outline: 2px dashed rgba(61, 36, 19, .35); outline-offset: -2px; }
+.btn.subtle:hover:not(:disabled) { color: var(--accent); outline-color: var(--accent); }
+.btn.subtle:disabled { opacity: .35; }
+
+/* Узкий экран: поле, плашка и кнопки одной ширины */
+@media (max-width: 760px) {
+  .setup-toolbar, .setup-grid { max-width: 520px; }
+  .setup-grid { grid-template-columns: minmax(0, 1fr); }
+  .setup .board-wrap { width: 100%; }
+  .setup .dock { width: 100%; }
+}

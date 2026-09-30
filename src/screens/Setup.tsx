@@ -105,7 +105,7 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
         {lastLayout && lastLayout.length === FLEET.length && (
           <button className="btn small" onClick={() => { setPlaced(lastLayout); sfx.place(); }}>Как в прошлый раз</button>
         )}
-        <button className="btn small" onClick={() => { setPlaced([]); setSelected(0); }} disabled={!placed.length}>Очистить</button>
+        <button className="btn small subtle" onClick={() => { setPlaced([]); setSelected(0); }} disabled={!placed.length}>Очистить</button>
         </div>
       </div>
       <div className="setup-grid">
