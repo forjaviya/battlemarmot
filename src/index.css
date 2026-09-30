@@ -130,7 +130,7 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .mound-back { bottom: 0; }
 .mound-front { bottom: 0; z-index: 2; }
 .burrow-win { position: absolute; left: 12%; width: 76%; bottom: calc(var(--w) * .2); height: calc(var(--w) * 2.6); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; z-index: 1; pointer-events: none; }
-.peeker { width: 100%; animation: peek 6s steps(4) infinite; transform: translateY(100%); margin-bottom: calc(var(--w) * -.06); }
+.peeker { width: 100%; transform: translateY(105%); transition: transform .35s steps(4); margin-bottom: calc(var(--w) * -.06); }
 .peeker svg { width: 100%; height: auto; display: block; }
 @keyframes peek { 0%, 12% { transform: translateY(100%); } 20%, 55% { transform: translateY(0); } 63%, 100% { transform: translateY(100%); } }
 .peeker.tall { animation: tall 1s steps(6) forwards; }
@@ -152,7 +152,8 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 @keyframes zz { 50% { transform: translateY(-6px); opacity: .3; } }
 .hop { animation: hop .5s steps(4); }
 @keyframes hop { 50% { transform: translateY(-20px); } }
-.peeker.hop { animation: hop2 .5s steps(4); transform: translateY(0); }
+.peeker.up { transform: translateY(0); }
+.peeker.up.hop { animation: hop2 .5s steps(4); }
 .parade { align-items: flex-end; }
 @keyframes hop2 { 0% { transform: translateY(0); } 50% { transform: translateY(-25%); } 100% { transform: translateY(0); } }
 .opponents { width: min(760px, 100%); }

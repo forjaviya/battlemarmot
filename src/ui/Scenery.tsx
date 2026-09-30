@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { BABY, BALLOON, HEAD, PixelSprite } from './sprites';
+import { useEffect, useRef, useState } from 'react';
+import { BABY, BABY_ANGRY, BALLOON, HEAD, HEAD_ANGRY, PixelSprite } from './sprites';
 import { Marmot } from './Marmot';
 import { Portrait } from './Portrait';
 import { sfx } from '../lib/sound';
@@ -77,26 +77,64 @@ const MOUND_BACK = MOUND;
 const MOUND_FRONT = MOUND.map((row, y) => (y < 5 ? '.'.repeat(16) : row));
 const SPLASH = [[-34, -26], [-22, -40], [-8, -48], [10, -46], [24, -38], [36, -24], [-30, -10], [32, -8]];
 
-type Act = 'hop' | 'tall' | null;
+type Burrow = { up: boolean; mode: 'idle' | 'hop' | 'angry' | 'tall' };
+const BIG = (i: number) => i % 2 === 1;
 
-/** Нижняя «степная» сцена главной: сурки вылезают прямо из норок. Их можно тыкать. */
+/** Нижняя «степная» сцена главной: сурки сами выглядывают из норок. Их можно тыкать:
+ *  спрятавшегося — выманить наружу; толстый — подпрыгнет или вытянется столбиком и нырнёт;
+ *  маленький — рассердится и нырнёт в норку, подняв песок. */
 export function SteppeParade() {
-  const [act, setAct] = useState<Record<number, Act>>({});
+  const [burrows, setBurrows] = useState<Burrow[]>(() => [0, 1, 2, 3, 4].map((i) => ({ up: i % 2 === 0, mode: 'idle' })));
   const [splash, setSplash] = useState<Record<number, number>>({});
   const [awake, setAwake] = useState(false);
+  const timers = useRef<Record<number, number>>({});
+
+  const patch = (i: number, b: Partial<Burrow>) => setBurrows((all) => all.map((x, k) => (k === i ? { ...x, ...b } : x)));
+
+  // собственный ритм каждой норки: то вылезет, то спрячется
+  const schedule = (i: number, delay: number) => {
+    window.clearTimeout(timers.current[i]);
+    timers.current[i] = window.setTimeout(() => {
+      setBurrows((all) => {
+        const b = all[i];
+        if (b.mode !== 'idle') return all;
+        return all.map((x, k) => (k === i ? { ...x, up: !x.up } : x));
+      });
+      schedule(i, 1800 + Math.random() * 2600);
+    }, delay);
+  };
+  useEffect(() => {
+    [0, 1, 2, 3, 4].forEach((i) => schedule(i, 800 + i * 700));
+    const t = timers.current;
+    return () => Object.values(t).forEach((id) => window.clearTimeout(id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const puff = (i: number) => {
+    setSplash((s) => ({ ...s, [i]: Date.now() }));
+    sfx.miss();
+    setTimeout(() => setSplash((s) => ({ ...s, [i]: 0 })), 650);
+  };
 
   const poke = (i: number) => {
-    if (act[i]) return;
-    const kind: Act = Math.random() < 0.55 ? 'tall' : 'hop';
-    setAct((a) => ({ ...a, [i]: kind }));
-    sfx.hit();
-    if (kind === 'tall') {
-      // вытянулся столбиком → нырнул в норку → песок в стороны
-      setTimeout(() => { setSplash((s) => ({ ...s, [i]: Date.now() })); sfx.miss(); }, 750);
-      setTimeout(() => setSplash((s) => ({ ...s, [i]: 0 })), 1400);
-      setTimeout(() => setAct((a) => ({ ...a, [i]: null })), 2600);
+    const b = burrows[i];
+    if (b.mode !== 'idle') return;
+    if (!b.up) { patch(i, { up: true }); sfx.click(); schedule(i, 2500); return; }
+    if (BIG(i)) {
+      if (Math.random() < 0.5) {
+        patch(i, { mode: 'hop' }); sfx.hit();
+        setTimeout(() => patch(i, { mode: 'idle' }), 520);
+        schedule(i, 2400);
+      } else {
+        patch(i, { mode: 'tall' }); sfx.hit();
+        setTimeout(() => puff(i), 820);
+        setTimeout(() => patch(i, { mode: 'idle', up: false }), 1000);
+        schedule(i, 3200);
+      }
     } else {
-      setTimeout(() => setAct((a) => ({ ...a, [i]: null })), 550);
+      patch(i, { mode: 'angry' }); sfx.bad();
+      setTimeout(() => { patch(i, { mode: 'idle', up: false }); puff(i); }, 650);
+      schedule(i, 3000);
     }
   };
 
@@ -109,15 +147,15 @@ export function SteppeParade() {
 
   return (
     <div className="parade">
-      {[0, 1, 2, 3, 4].map((i) => (
+      {burrows.map((b, i) => (
         <button key={i} className="burrow" onClick={() => poke(i)} aria-label="Сурок в норке">
           <PixelSprite rows={MOUND_BACK} className="mound-back" />
           <div className="burrow-win">
-            {act[i] === 'tall' ? (
+            {b.mode === 'tall' ? (
               <div className="peeker tall"><Marmot length={3} orientation="v" /></div>
             ) : (
-              <div className={`peeker ${act[i] === 'hop' ? 'hop' : ''}`} style={{ animationDelay: `${-i * 1.7}s` }}>
-                <PixelSprite rows={i % 2 ? HEAD : BABY} />
+              <div className={`peeker ${b.up ? 'up' : ''} ${b.mode === 'hop' ? 'hop' : ''}`}>
+                <PixelSprite rows={BIG(i) ? (b.mode === 'angry' ? HEAD_ANGRY : HEAD) : b.mode === 'angry' ? BABY_ANGRY : BABY} />
               </div>
             )}
           </div>

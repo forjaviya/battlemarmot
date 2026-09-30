@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({executablePath: process.env.PWEXE});
+const p = await b.newPage({viewport:{width:1280,height:900}});
+await p.goto('http://localhost:4173'); await p.waitForTimeout(400);
+await p.locator('.parade').screenshot({path:'/tmp/claude-0/shots/p0.png'});
+await p.locator('.burrow').nth(0).click(); await p.waitForTimeout(250);
+await p.locator('.parade').screenshot({path:'/tmp/claude-0/shots/p1.png'});
+await p.waitForTimeout(600);
+await p.locator('.parade').screenshot({path:'/tmp/claude-0/shots/p2.png'});
+await b.close();

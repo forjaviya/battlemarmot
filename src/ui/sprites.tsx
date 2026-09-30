@@ -124,8 +124,8 @@ export const HEAD = mirror([
   'obbkkbbb',
   'obbkwbbb',
   'obbbbbbb',
-  'obpbblll',
-  'obbbllln',
+  'obppblll',
+  'obppllln',
   'obbbllol',
   'obbblllt',
   'obbbllll',
@@ -236,6 +236,9 @@ const withRows = (base: string[], half: Record<number, string>) => base.map((row
 /** Спящая мордочка (глаза закрыты) и недовольная (брови домиком вниз, прищур). */
 export const H_HEAD_SLEEP = withRows(H_HEAD, { 6: 'obbbbbbb', 7: 'obkkbbbb', 11: 'obbblllo' });
 export const H_HEAD_GRUMPY = withRows(H_HEAD, { 5: '.obkbbbb', 6: 'obbbkbbb', 7: 'obbkkbbb', 11: 'obbbllll', 12: 'obbbllto' });
+/** Злые мордочки для сурков в норках. */
+export const HEAD_ANGRY = withRows(HEAD, { 5: '.obkbbbb', 6: 'obbbkbbb', 7: 'obbkkbbb', 11: 'obbbllll', 12: 'obbbllto' });
+export const BABY_ANGRY = withRows(BABY, { 4: '..obkbbb', 5: '.obbbkbb', 6: '.obbkkbb' });
 
 export function marmotSegmentsH(n: number): string[][] {
   if (n === 1) return [BABY];
