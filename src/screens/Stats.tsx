@@ -3,6 +3,7 @@ import { OPPONENTS } from '../config';
 import type { GameSummary } from '../game/engine';
 import type { Difficulty } from '../game/types';
 import { computeStats, fetchHistory } from '../lib/history';
+import { Portrait } from '../ui/Portrait';
 
 const fmtDate = (t: number) => new Date(t).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
 const fmtTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
@@ -23,7 +24,7 @@ export function Stats({ userId, nickname, onBack, onLogin }: { userId: string | 
   return (
     <div className="screen stats">
       <div className="screen-head">
-        <button className="btn ghost small" onClick={onBack}>← Меню</button>
+        <button className="btn ghost small" onClick={onBack}>Меню</button>
         <h2>Статистика{nickname ? `: ${nickname}` : ''}</h2>
       </div>
       <p className="hint">
@@ -46,15 +47,29 @@ export function Stats({ userId, nickname, onBack, onLogin }: { userId: string | 
           </div>
           <div className="panel">
             <h3>По соперникам</h3>
-            <div className="opp-bars">
+            <div className="opp-cards">
               {(Object.keys(OPPONENTS) as Difficulty[]).map((d) => {
                 const x = st.byDifficulty[d];
                 const pct = x.total ? Math.round((x.wins / x.total) * 100) : 0;
+                const mood = !x.total ? 'neutral' : pct >= 60 ? 'worried' : pct >= 40 ? 'alert' : 'smug';
+                const filled = Math.round(pct / 10);
                 return (
-                  <div key={d} className="opp-bar">
-                    <span className="ob-name">{OPPONENTS[d].name}</span>
-                    <div className="ob-track"><div className={`ob-fill opp-${d}`} style={{ width: `${pct}%` }} /></div>
-                    <span className="ob-val">{x.total ? `${x.wins}/${x.total}` : '—'}</span>
+                  <div key={d} className={`opp-card opp-${d}`}>
+                    <Portrait who={d} mood={mood} size={64} className="idle" />
+                    <div className="oc-body">
+                      <span className="oc-name">{OPPONENTS[d].name}</span>
+                      {x.total ? (
+                        <>
+                          <span className="oc-pct">{pct}%</span>
+                          <div className="oc-blocks" aria-label={`Побед: ${pct}%`}>
+                            {Array.from({ length: 10 }, (_, i) => <i key={i} className={i < filled ? 'on' : ''} />)}
+                          </div>
+                          <span className="oc-sub">{x.wins} {x.wins === 1 ? 'победа' : x.wins >= 2 && x.wins <= 4 ? 'победы' : 'побед'} из {x.total}</span>
+                        </>
+                      ) : (
+                        <span className="oc-sub">ещё не играли</span>
+                      )}
+                    </div>
                   </div>
                 );
               })}

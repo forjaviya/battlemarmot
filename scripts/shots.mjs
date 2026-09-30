@@ -8,7 +8,7 @@ for (const [name, vp] of [['desk',{width:1280,height:860}],['mob',{width:390,hei
   await p.screenshot({path:`${out}/${name}-1home.png`, fullPage:true});
   await p.getByText('Новая игра').first().click();
   await p.screenshot({path:`${out}/${name}-2opp.png`, fullPage:true});
-  await p.getByText('Лиса', {exact:true}).click();
+  await p.locator('.opp-normal').click();
   await p.locator('[data-cell="2-2"]').first().click();
   await p.locator('[data-cell="5-5"]').first().hover();
   await p.screenshot({path:`${out}/${name}-3setup.png`, fullPage:true});

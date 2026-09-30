@@ -84,7 +84,7 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
   return (
     <div className="screen setup">
       <div className="screen-head">
-        <button className="btn ghost small" onClick={onBack}>← Меню</button>
+        <button className="btn ghost small" onClick={onBack}>Меню</button>
         <h2>Спрячь своих сурков</h2>
         <span className="vs">против: <b>{OPPONENTS[difficulty].name}</b></span>
       </div>

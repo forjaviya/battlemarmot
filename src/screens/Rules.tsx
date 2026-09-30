@@ -6,7 +6,7 @@ export function Rules({ onBack }: { onBack: () => void }) {
   return (
     <div className="screen rules">
       <div className="screen-head">
-        <button className="btn ghost small" onClick={onBack}>← Меню</button>
+        <button className="btn ghost small" onClick={onBack}>Меню</button>
         <h2>Как играть</h2>
       </div>
       <div className="panel prose">

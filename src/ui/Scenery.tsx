@@ -37,11 +37,11 @@ export function Backdrop() {
 }
 
 const BALLOONS = [
-  { top: 1, dur: 34, delay: -6, size: 1, color: '#e0413b' },
-  { top: 12, dur: 44, delay: -18, size: 1.15, color: '#d44e00' },
-  { top: 4, dur: 58, delay: -40, size: 0.7, color: '#f6e7c8' },
-  { top: 20, dur: 40, delay: -31, size: 0.85, color: '#ffd23f' },
-  { top: 8, dur: 66, delay: -52, size: 0.6, color: '#8fd06a' },
+  { top: 0, dur: 34, delay: -6, size: 1, color: '#e0413b' },
+  { top: 4, dur: 44, delay: -18, size: 1.15, color: '#d44e00' },
+  { top: 2, dur: 58, delay: -40, size: 0.7, color: '#f6e7c8' },
+  { top: 7, dur: 40, delay: -31, size: 0.85, color: '#ffd23f' },
+  { top: 5, dur: 66, delay: -52, size: 0.6, color: '#8fd06a' },
 ];
 
 /** Сурки на воздушных шариках пролетают над степью. */

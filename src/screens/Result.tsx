@@ -5,6 +5,7 @@ import { OPPONENTS } from '../config';
 import { Board } from '../ui/Board';
 import { Marmot } from '../ui/Marmot';
 import { sfx } from '../lib/sound';
+import { Portrait } from '../ui/Portrait';
 
 const fmtTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
@@ -19,9 +20,10 @@ export function Result({ game, onAgain, onMenu, loggedIn, onLogin }: { game: Gam
         <div className="result-marmots">
           <Marmot length={1} orientation="v" className={s.won ? 'jump' : ''} />
           <Marmot length={2} orientation="v" className={s.won ? 'jump d1' : ''} />
-          <Marmot length={1} orientation="v" className={s.won ? 'jump d2' : ''} />
+          <span className="result-vs">vs</span>
+          <Portrait who={game.difficulty} mood={s.won ? 'sad' : 'happy'} size={72} className="idle" />
         </div>
-        <h2>{s.won ? 'Все сурки найдены!' : `${opp.name} оказался быстрее`}</h2>
+        <h2>{s.won ? 'Все сурки найдены!' : `${opp.name} ${opp.fem ? 'оказалась' : 'оказался'} быстрее`}</h2>
         <p className="sub">{s.won ? `Ты перехитрил(а) соперника «${opp.name}»` : 'Сурки соседа ещё прячутся — но реванш всегда возможен'}</p>
         <div className="stat-row">
           <div><b>{s.shots}</b><span>норок проверено</span></div>

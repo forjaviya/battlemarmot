@@ -6,6 +6,7 @@ import { Marmot } from '../ui/Marmot';
 import type { BoardState, GameState, ShotResult } from '../game/types';
 import { OPPONENTS } from '../config';
 import { sfx } from '../lib/sound';
+import { Portrait, moodFor } from '../ui/Portrait';
 
 const AI_DELAY = 750;
 
@@ -50,9 +51,9 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
       if (!res) return;
       setLastAi({ row: res.row, col: res.col });
       const where = `${COLS[res.col]}${res.row + 1}`;
-      if (res.result === 'miss') { sfx.miss(); setMsg(`${opp.name}: ${where} — пусто. Твой ход!`); }
-      else if (res.result === 'hit') { sfx.hit(); setMsg(`${opp.name} нашёл хвостик на ${where}!`); setMobileView('own'); }
-      else { sfx.found(); setMsg(`${opp.name} нашёл твоего сурка на ${where}!`); setMobileView('own'); }
+      if (res.result === 'miss') { sfx.miss(); setMsg(`${where} — пусто. Твой ход!`); }
+      else if (res.result === 'hit') { sfx.hit(); setMsg(`${opp.fem ? 'Нашла' : 'Нашёл'} хвостик на ${where}!`); setMobileView('own'); }
+      else { sfx.found(); setMsg(`${opp.fem ? 'Нашла' : 'Нашёл'} твоего сурка на ${where}!`); setMobileView('own'); }
       setGame(res.state);
     }, AI_DELAY);
     return () => clearTimeout(t);
@@ -76,16 +77,26 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
   };
 
   const myTurn = game.turn === 'player' && game.phase === 'battle';
+  const playerFound = game.log.filter((l) => l.by === 'player' && l.result !== 'miss').length;
+  const aiFound = game.log.filter((l) => l.by === 'ai' && l.result !== 'miss').length;
+  const lastAiLog = [...game.log].reverse().find((l) => l.by === 'ai');
+  const lastAiHit = !!lastAiLog && lastAiLog.result !== 'miss' && game.log[game.log.length - 1]?.by === 'ai';
+  const mood = moodFor({ playerFound, aiFound, turn: game.turn, lastAiHit, over: game.phase === 'over', playerWon: game.winner === 'player' });
 
   return (
     <div className="screen battle">
       <div className="screen-head">
-        <button className="btn ghost small" onClick={onExit}>← Меню</button>
+        <button className="btn ghost small" onClick={onExit}>Меню</button>
         <div className={`turn-badge ${myTurn ? 'me' : 'them'}`} role="status" aria-live="polite">
           {myTurn ? 'Твой ход' : `Ход: ${opp.name}`}
         </div>
       </div>
-      <div className="msg panel" aria-live="polite">{msg}</div>
+      <div className="msg panel" aria-live="polite">
+        <Portrait who={game.difficulty} mood={mood} size={64} thinking={game.turn === 'ai' && game.phase === 'battle'} className="idle" />
+        <div className="msg-text">
+          <span>{msg}</span>
+        </div>
+      </div>
 
       <div className="mobile-tabs">
         <button className={mobileView === 'enemy' ? 'on' : ''} onClick={() => setMobileView('enemy')}>Поле соседа</button>
@@ -94,7 +105,7 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
 
       <div className={`battle-grid show-${mobileView}`}>
         <section className="side enemy-side">
-          <h3>Степь: {opp.name} <small>({opp.level})</small></h3>
+          <h3>Норки соперника <small>({opp.name}, {opp.level.toLowerCase()})</small></h3>
           <Board board={game.ai} kind="enemy" label="Поле соперника" onCell={shoot} disabled={!myTurn} lastShot={lastPlayer} seed={7} />
           <FleetLeft board={game.ai} title="Ещё прячутся:" />
         </section>
