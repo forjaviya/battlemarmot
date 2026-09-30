@@ -97,14 +97,16 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
         <span className="now">
           {done ? 'Готово!' : <>Ставим: <b>{selLen ? MARMOT_NAMES[selLen] : ''}</b></>}
         </span>
-        <button className="btn small" onClick={() => { setOrientation((o) => (o === 'h' ? 'v' : 'h')); sfx.click(); }} disabled={done}>
-          Повернуть: {orientation === 'h' ? 'лёжа' : 'столбиком'}
-        </button>
-        <button className="btn small" onClick={() => { setPlaced(randomFleet()); setSelected(null); sfx.place(); }}>Случайно</button>
-      {lastLayout && lastLayout.length === FLEET.length && (
-        <button className="btn small" onClick={() => { setPlaced(lastLayout); sfx.place(); }}>Как в прошлый раз</button>
-      )}
-      <button className="btn ghost small" onClick={() => { setPlaced([]); setSelected(0); }} disabled={!placed.length}>Очистить</button>
+        <div className="tb-actions">
+          <button className="btn small" onClick={() => { setOrientation((o) => (o === 'h' ? 'v' : 'h')); sfx.click(); }} disabled={done}>
+            Повернуть <span className="tb-hint">{orientation === 'h' ? '(лёжа)' : '(столбиком)'}</span>
+          </button>
+          <button className="btn small" onClick={() => { setPlaced(randomFleet()); setSelected(null); sfx.place(); }}>Случайно</button>
+        {lastLayout && lastLayout.length === FLEET.length && (
+          <button className="btn small" onClick={() => { setPlaced(lastLayout); sfx.place(); }}>Как в прошлый раз</button>
+        )}
+        <button className="btn small" onClick={() => { setPlaced([]); setSelected(0); }} disabled={!placed.length}>Очистить</button>
+        </div>
       </div>
       <div className="setup-grid">
         <div className={shake ? 'shake' : ''}>
