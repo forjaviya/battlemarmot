@@ -232,6 +232,11 @@ export const H_TAIL = [
   '..oooo..oooo....',
 ];
 
+const withRows = (base: string[], half: Record<number, string>) => base.map((row, y) => (half[y] ? half[y] + [...half[y]].reverse().join('') : row));
+/** Спящая мордочка (глаза закрыты) и недовольная (брови домиком вниз, прищур). */
+export const H_HEAD_SLEEP = withRows(H_HEAD, { 6: 'obbbbbbb', 7: 'obkkbbbb', 11: 'obbblllo' });
+export const H_HEAD_GRUMPY = withRows(H_HEAD, { 5: '.obkbbbb', 6: 'obbbkbbb', 7: 'obbkkbbb', 11: 'obbbllll', 12: 'obbbllto' });
+
 export function marmotSegmentsH(n: number): string[][] {
   if (n === 1) return [BABY];
   if (n === 2) return [H_HEAD, H_TAIL];

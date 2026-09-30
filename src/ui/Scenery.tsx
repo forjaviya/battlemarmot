@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BABY, BALLOON, HEAD, PixelSprite } from './sprites';
 import { Marmot } from './Marmot';
+import { Portrait } from './Portrait';
 import { sfx } from '../lib/sound';
 
 /** Пиксельные холмы-барханы: синусоида, округлённая до «ступенек» по 4 px. */
@@ -37,11 +38,11 @@ export function Backdrop() {
 }
 
 const BALLOONS = [
-  { top: 0, dur: 34, delay: -6, size: 1, color: '#e0413b' },
-  { top: 4, dur: 44, delay: -18, size: 1.15, color: '#d44e00' },
-  { top: 2, dur: 58, delay: -40, size: 0.7, color: '#f6e7c8' },
-  { top: 7, dur: 40, delay: -31, size: 0.85, color: '#ffd23f' },
-  { top: 5, dur: 66, delay: -52, size: 0.6, color: '#8fd06a' },
+  { top: 0, dur: 34, delay: -6, size: 1, color: '#e0413b', who: 'marmot' as const },
+  { top: 4, dur: 44, delay: -18, size: 1.15, color: '#d44e00', who: 'normal' as const },
+  { top: 2, dur: 58, delay: -40, size: 0.7, color: '#f6e7c8', who: 'easy' as const },
+  { top: 7, dur: 40, delay: -31, size: 0.85, color: '#ffd23f', who: 'hard' as const },
+  { top: 5, dur: 66, delay: -52, size: 0.6, color: '#8fd06a', who: 'marmot' as const },
 ];
 
 /** Сурки на воздушных шариках пролетают над степью. */
@@ -52,7 +53,7 @@ export function FlyingMarmots() {
         <div key={i} className="flyer" style={{ top: `${b.top}%`, animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s`, ['--s' as string]: b.size }}>
           <div className="flyer-bob" style={{ animationDelay: `${-i * 0.7}s` }}>
             <PixelSprite rows={BALLOON} pal={{ r: b.color }} className="balloon" />
-            <PixelSprite rows={BABY} className="hanger" />
+            {b.who === 'marmot' ? <PixelSprite rows={BABY} className="hanger" /> : <Portrait who={b.who} mood={b.who === 'hard' ? 'smug' : 'happy'} size={52} className="hanger" />}
           </div>
         </div>
       ))}
@@ -71,33 +72,68 @@ const MOUND = [
   '....qqqqqqqq....',
 ];
 
-/** Нижняя «степная» сцена главной: норки, из которых выглядывают сурки. Сурков можно тыкать. */
+const MOUND_BACK = MOUND.slice(0, 4);
+const MOUND_FRONT = MOUND.slice(4);
+const SPLASH = [[-34, -26], [-22, -40], [-8, -48], [10, -46], [24, -38], [36, -24], [-30, -10], [32, -8]];
+
+type Act = 'hop' | 'tall' | null;
+
+/** Нижняя «степная» сцена главной: сурки вылезают прямо из норок. Их можно тыкать. */
 export function SteppeParade() {
-  const [hopping, setHopping] = useState<number | null>(null);
-  const hop = (i: number) => {
-    setHopping(i);
+  const [act, setAct] = useState<Record<number, Act>>({});
+  const [splash, setSplash] = useState<Record<number, number>>({});
+  const [awake, setAwake] = useState(false);
+
+  const poke = (i: number) => {
+    if (act[i]) return;
+    const kind: Act = Math.random() < 0.55 ? 'tall' : 'hop';
+    setAct((a) => ({ ...a, [i]: kind }));
     sfx.hit();
-    setTimeout(() => setHopping(null), 500);
+    if (kind === 'tall') {
+      // вытянулся столбиком → нырнул в норку → песок в стороны
+      setTimeout(() => { setSplash((s) => ({ ...s, [i]: Date.now() })); sfx.miss(); }, 750);
+      setTimeout(() => setSplash((s) => ({ ...s, [i]: 0 })), 1400);
+      setTimeout(() => setAct((a) => ({ ...a, [i]: null })), 2600);
+    } else {
+      setTimeout(() => setAct((a) => ({ ...a, [i]: null })), 550);
+    }
   };
-  const burrows = [0, 1, 2, 3, 4];
+
+  const wake = () => {
+    if (awake) return;
+    setAwake(true);
+    sfx.bad();
+    setTimeout(() => setAwake(false), 1800);
+  };
+
   return (
     <div className="parade">
-      <div className="lookout" onClick={() => hop(99)}>
-        <div className={hopping === 99 ? 'hop' : ''}><Marmot length={4} orientation="v" /></div>
+      <div className="lookout" onClick={() => poke(99)}>
+        <div className={act[99] ? 'hop' : ''}><Marmot length={4} orientation="v" /></div>
       </div>
-      {burrows.map((i) => (
-        <button key={i} className={`burrow b${i}`} onClick={() => hop(i)} aria-label="Сурок в норке">
+      {[0, 1, 2, 3, 4].map((i) => (
+        <button key={i} className="burrow" onClick={() => poke(i)} aria-label="Сурок в норке">
+          <PixelSprite rows={MOUND_BACK} className="mound-back" />
           <div className="burrow-win">
-            <div className={`peeker ${hopping === i ? 'hop' : ''}`} style={{ animationDelay: `${-i * 1.7}s` }}>
-              <PixelSprite rows={i % 2 ? HEAD : BABY} />
-            </div>
+            {act[i] === 'tall' ? (
+              <div className="peeker tall"><Marmot length={3} orientation="v" /></div>
+            ) : (
+              <div className={`peeker ${act[i] === 'hop' ? 'hop' : ''}`} style={{ animationDelay: `${-i * 1.7}s` }}>
+                <PixelSprite rows={i % 2 ? HEAD : BABY} />
+              </div>
+            )}
           </div>
-          <PixelSprite rows={MOUND} className="mound" />
+          <PixelSprite rows={MOUND_FRONT} className="mound-front" />
+          {!!splash[i] && (
+            <span className="splash" key={splash[i]}>
+              {SPLASH.map(([dx, dy], k) => <i key={k} style={{ ['--dx' as string]: `${dx}px`, ['--dy' as string]: `${dy}px` }} />)}
+            </span>
+          )}
         </button>
       ))}
-      <div className="sleeper" onClick={() => hop(98)}>
-        <span className="zzz">z<span>z</span><span>z</span></span>
-        <div className={hopping === 98 ? 'hop' : ''}><Marmot length={4} orientation="h" /></div>
+      <div className="sleeper" onClick={wake}>
+        {awake ? <span className="grr">хмф!</span> : <span className="zzz">z<span>z</span><span>z</span></span>}
+        <div className={awake ? 'hop' : ''}><Marmot length={4} orientation="h" face={awake ? 'grumpy' : 'sleep'} /></div>
       </div>
     </div>
   );

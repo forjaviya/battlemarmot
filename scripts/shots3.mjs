@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({executablePath: process.env.PWEXE});
+const p = await b.newPage({viewport:{width:1280,height:900}});
+await p.goto('http://localhost:4173'); await p.waitForTimeout(1500);
+await p.screenshot({path:'/tmp/claude-0/shots/h1.png'});
+await p.evaluate(()=>{Math.random=()=>0.1});
+await p.locator('.burrow').nth(1).click(); await p.locator('.sleeper').click();
+await p.waitForTimeout(350); await p.locator('.parade').screenshot({path:'/tmp/claude-0/shots/h2.png'});
+await p.waitForTimeout(500); await p.locator('.parade').screenshot({path:'/tmp/claude-0/shots/h3.png'});
+await p.getByText('Новая игра').first().click(); await p.locator('.opp-normal').click(); await p.waitForTimeout(400);
+await p.screenshot({path:'/tmp/claude-0/shots/setup.png'});
+await b.close();

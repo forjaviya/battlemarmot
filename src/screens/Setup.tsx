@@ -93,17 +93,17 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
         Нажми на уже поставленного, чтобы поднять его. <span className="desk-only">Правый клик или клавиша R — повернуть.</span>
       </p>
 
+      <div className="setup-toolbar">
+        <span className="now">
+          {done ? 'Готово!' : <>Ставим: <b>{selLen ? MARMOT_NAMES[selLen] : ''}</b></>}
+        </span>
+        <button className="btn small" onClick={() => { setOrientation((o) => (o === 'h' ? 'v' : 'h')); sfx.click(); }} disabled={done}>
+          Повернуть: {orientation === 'h' ? 'лёжа' : 'столбиком'}
+        </button>
+        <button className="btn small" onClick={() => { setPlaced(randomFleet()); setSelected(null); sfx.place(); }}>Случайно</button>
+      </div>
       <div className="setup-grid">
         <div className={shake ? 'shake' : ''}>
-          <div className="setup-toolbar">
-            <span className="now">
-              {done ? 'Готово!' : <>Ставим: <b>{selLen ? MARMOT_NAMES[selLen] : ''}</b></>}
-            </span>
-            <button className="btn small" onClick={() => { setOrientation((o) => (o === 'h' ? 'v' : 'h')); sfx.click(); }} disabled={done}>
-              Повернуть: {orientation === 'h' ? 'лёжа' : 'столбиком'}
-            </button>
-            <button className="btn small" onClick={() => { setPlaced(randomFleet()); setSelected(null); sfx.place(); }}>Случайно</button>
-          </div>
           <Board
             board={{ marmots: placed, shots: [] }}
             kind="own"
