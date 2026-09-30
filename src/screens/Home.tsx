@@ -3,6 +3,7 @@ import { APP_NAME, APP_TAGLINE, OPPONENTS } from '../config';
 import type { Difficulty } from '../game/types';
 import { FlyingMarmots, SteppeParade } from '../ui/Scenery';
 import { sfx } from '../lib/sound';
+import { CLOCK, PEEK, PHONE, PixelSprite } from '../ui/sprites';
 
 export function Home({ canResume, onResume, onNew, onStats, onRules }: { canResume: boolean; onResume: () => void; onNew: (d: Difficulty) => void; onStats: () => void; onRules: () => void }) {
   const [picking, setPicking] = useState(false);
@@ -27,10 +28,10 @@ export function Home({ canResume, onResume, onNew, onStats, onRules }: { canResu
             <button className="btn sand" onClick={onStats}>Статистика</button>
             <button className="btn sand" onClick={onRules}>Как играть</button>
           </div>
-          <ul className="chips">
-            <li>3 соперника</li>
-            <li>5 минут на партию</li>
-            <li>Прогресс на любом устройстве</li>
+          <ul className="features">
+            <li><PixelSprite rows={PEEK} /><span><b>3</b>соперника разной хитрости</span></li>
+            <li><PixelSprite rows={CLOCK} /><span><b>5 мин</b>на одну партию</span></li>
+            <li><PixelSprite rows={PHONE} /><span><b>1 аккаунт</b>прогресс на любом устройстве</span></li>
           </ul>
         </div>
       ) : (

@@ -59,6 +59,37 @@ export const STAR = mirror([
   'oo..',
 ]);
 
+export const CLOCK = mirror([
+  '...ooo',
+  '.oottt',
+  '.otttt',
+  'ottttd',
+  'ottttd',
+  'ottttd',
+  'otttdd',
+  'oltttt',
+  'oltttt',
+  '.ollll',
+  '.oolll',
+  '...ooo',
+]);
+
+export const PHONE = mirror([
+  '.oooo',
+  'oosss',
+  'olqqq',
+  'olqqq',
+  'olqqq',
+  'olqqq',
+  'olqqq',
+  'olqqq',
+  'olqqq',
+  'olqqq',
+  'ooooo',
+  'ooooy',
+  '.oooo',
+]);
+
 export const SPEAKER = [
   '....oo....',
   '...oto....',

@@ -13,7 +13,7 @@
   --blue: #3d7fd6;
   --px: 4px;
   --font-title: 'Press Start 2P', monospace;
-  --font-body: 'Tiny5', 'Press Start 2P', monospace;
+  --font-body: 'Rubik', 'Trebuchet MS', system-ui, sans-serif;
   color-scheme: light;
 }
 
@@ -23,13 +23,11 @@ body {
   font-family: var(--font-body);
   color: var(--ink);
   background: #d4a25a;
-  font-size: 20px;
-  line-height: 1.3;
-  font-synthesis: none;
-  -webkit-font-smoothing: none;
+  font-size: 17px;
+  line-height: 1.45;
   -webkit-tap-highlight-color: transparent;
 }
-b, strong { font-weight: 400; color: var(--accent-d); }
+b, strong { font-weight: 700; color: var(--accent-d); }
 button { font: inherit; color: inherit; }
 
 /* ---------- Небо и барханы ---------- */
@@ -87,7 +85,7 @@ button { font: inherit; color: inherit; }
 .nick { font-weight: 700; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 16px 24px; }
-.foot { text-align: center; font-size: 17px; padding: 10px; color: var(--ink); background: #d4a25a; }
+.foot { text-align: center; font-size: 14px; padding: 10px; color: var(--ink); background: #d4a25a; }
 
 .screen { animation: fadein .25s ease-out; }
 @keyframes fadein { from { opacity: 0; transform: translateY(6px); } }
@@ -96,7 +94,7 @@ main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 16px 
 h1, h2, h3 { font-family: var(--font-title); line-height: 1.4; }
 h2 { font-size: 16px; }
 h3 { font-size: 12px; margin: 0 0 10px; }
-.hint { margin: 4px 0 14px; color: var(--ink-soft); font-size: 20px; }
+.hint { margin: 4px 0 14px; color: var(--ink-soft); font-size: 16px; }
 .err { color: var(--accent-d); }
 
 /* ---------- Главная ---------- */
@@ -108,13 +106,16 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .logo-ch { display: inline-block; animation: wave 2.4s steps(4) infinite; }
 @keyframes wave { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }
 .tagline { font-family: var(--font-title); font-size: 13px; margin: 26px 0 12px; color: var(--accent-d); }
-.lead { max-width: 520px; margin: 0 auto 24px; font-size: 22px; }
+.lead { max-width: 500px; margin: 0 auto 26px; font-size: 18px; font-weight: 500; }
 .menu { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; align-items: stretch; width: min(380px, 100%); }
 .menu-row { display: flex; gap: 8px; }
 .menu-row .btn { flex: 1; }
-.chips { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-.chips li { background: #fff4dc; padding: 4px 10px; font-size: 17px; box-shadow: 0 0 0 3px var(--ink); }
-.flyers { position: absolute; inset: 0 -16px auto; height: 88%; pointer-events: none; z-index: 0; overflow: hidden; }
+
+.features { list-style: none; padding: 0; margin: 26px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.features li { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; line-height: 1.25; color: var(--ink); }
+.features svg { width: 30px; height: auto; }
+.features b { display: block; font-family: var(--font-title); font-weight: 400; font-size: 13px; color: var(--accent); margin-bottom: 2px; }
+.flyers { position: absolute; inset: 0 -16px auto; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
 .flyer { position: absolute; left: 0; animation: fly linear infinite; }
 .flyer-bob { display: flex; flex-direction: column; align-items: center; transform: scale(var(--s)); transform-origin: top center; animation: bobx 2.2s ease-in-out infinite; }
 .flyer .balloon { width: 58px; height: auto; }
@@ -146,9 +147,9 @@ h3 { font-size: 12px; margin: 0 0 10px; }
   box-shadow: 0 -3px 0 0 var(--ink), 0 3px 0 0 var(--ink), -3px 0 0 0 var(--ink), 3px 0 0 0 var(--ink), inset 0 -6px 0 0 var(--c, #ccc); transition: transform .08s; }
 .opp:hover { transform: translateY(-3px); }
 .opp-easy { --c: #8fd06a; } .opp-normal { --c: #f29d38; } .opp-hard { --c: #7b5cc4; }
-.opp-level { font-size: 16px; text-transform: uppercase; color: var(--ink-soft); }
+.opp-level { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-soft); }
 .opp-name { font-family: var(--font-title); font-size: 14px; }
-.opp-about { font-size: 18px; }
+.opp-about { font-size: 15px; }
 
 /* ---------- Сурки ---------- */
 .marmot { display: flex; width: 100%; height: 100%; image-rendering: pixelated; }
@@ -166,7 +167,7 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 /* ---------- Поле ---------- */
 .board-wrap { display: grid; grid-template-columns: 18px 1fr; grid-template-rows: 18px auto; width: min(100%, 460px); }
 .board-wrap.compact { width: min(100%, 320px); }
-.axis { display: grid; font-size: 15px; color: var(--ink); }
+.axis { display: grid; font-size: 12px; font-weight: 700; color: var(--ink); }
 .axis-top { grid-column: 2; grid-template-columns: repeat(10, 1fr); text-align: center; }
 .axis-left { grid-row: 2; grid-template-rows: repeat(10, 1fr); align-items: center; text-align: right; padding-right: 3px; }
 .board {
@@ -215,7 +216,7 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .dock-actions { display: flex; flex-wrap: wrap; gap: 4px; }
 .shake { animation: shake .3s; }
 @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
-.vs { font-size: 20px; }
+.vs { font-size: 16px; }
 .setup-toolbar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0 0 12px 18px; }
 .setup-toolbar .now { flex: 1; min-width: 150px; }
 
@@ -224,12 +225,12 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .turn-badge.me { background: #3f9c35; animation: pulse 1.2s steps(2) infinite; }
 .turn-badge.them { background: #8a6b4a; }
 @keyframes pulse { 50% { background: #57b84b; } }
-.msg { font-size: 23px; font-weight: 700; min-height: 56px; display: flex; align-items: center; }
+.msg { font-size: 18px; font-weight: 500; min-height: 56px; display: flex; align-items: center; }
 .battle-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; align-items: start; margin-top: 16px; }
-.side h3 small { font-family: var(--font-body); font-size: 17px; }
+.side h3 small { font-family: var(--font-body); font-size: 14px; }
 .own-side .board-wrap { width: min(100%, 340px); }
 .fleet-left { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
-.fl-title { font-size: 18px; }
+.fl-title { font-size: 14px; }
 .fl-items { display: flex; flex-wrap: wrap; gap: 6px; }
 .fl-item { height: 14px; }
 .fl-item.gone { opacity: .25; filter: grayscale(1); }
@@ -245,9 +246,9 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .stat-row { display: flex; justify-content: center; gap: 22px; margin: 12px 0 18px; flex-wrap: wrap; }
 .stat-row div { display: flex; flex-direction: column; }
 .stat-row b, .card b { font-family: var(--font-title); font-size: 18px; }
-.stat-row span, .card span { font-size: 18px; color: var(--ink-soft); }
+.stat-row span, .card span { font-size: 14px; color: var(--ink-soft); }
 .result-actions { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.save-hint { font-size: 19px; margin: 14px 0 0; }
+.save-hint { font-size: 15px; margin: 14px 0 0; }
 .reveal { display: flex; flex-direction: column; align-items: center; }
 
 /* ---------- Статистика ---------- */
@@ -258,9 +259,9 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .opp-bar { display: grid; grid-template-columns: 110px 1fr 60px; align-items: center; gap: 10px; }
 .ob-track { height: 16px; background: #eadbb8; box-shadow: 0 0 0 2px var(--ink); }
 .ob-fill { height: 100%; background: var(--c); }
-.ob-val { font-family: var(--font-title); font-size: 11px; text-align: right; }
+.ob-val { font-weight: 700; font-size: 14px; text-align: right; }
 .history { display: flex; flex-direction: column; }
-.h-row { display: grid; grid-template-columns: 100px 100px 1fr 60px 110px; gap: 8px; padding: 8px 4px; border-bottom: 2px dashed #e2cfa6; font-size: 19px; }
+.h-row { display: grid; grid-template-columns: 100px 100px 1fr 60px 110px; gap: 8px; padding: 8px 4px; border-bottom: 2px dashed #e2cfa6; font-size: 15px; }
 .h-row.w .h-res { color: #2f7d27; font-weight: 700; }
 .h-row.l .h-res { color: var(--accent-d); font-weight: 700; }
 .h-date { color: var(--ink-soft); text-align: right; }
@@ -273,7 +274,7 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .fleet-legend li, .legend li { display: flex; align-items: center; gap: 10px; }
 .legend-sprite { display: inline-block; height: 22px; }
 .legend-star { width: 28px; height: auto; }
-.kbd-hint { color: var(--ink-soft); font-size: 18px; }
+.kbd-hint { color: var(--ink-soft); font-size: 14px; }
 
 /* ---------- Модалка ---------- */
 .modal-bg { position: fixed; inset: 0; background: rgba(40, 25, 10, .55); display: grid; place-items: center; z-index: 50; padding: 16px; }
@@ -289,7 +290,7 @@ h3 { font-size: 12px; margin: 0 0 10px; }
   .px-sun { width: 52px; height: 52px; right: -10px; top: 70px; }
   .home { padding-top: 60px; }
   .flyer:nth-child(2) { display: block; }
-  body { font-size: 19px; }
+  body { font-size: 16px; }
   .flyer:nth-child(n+4) { display: none; }
   .sleeper { display: none; }
   main { padding: 0 12px 20px; }
@@ -297,12 +298,12 @@ h3 { font-size: 12px; margin: 0 0 10px; }
   .board-wrap, .own-side .board-wrap { width: 100%; }
   .opp-list { grid-template-columns: 1fr; }
   .mobile-tabs { display: flex; gap: 8px; margin-top: 10px; }
-  .mobile-tabs button { flex: 1; border: 0; padding: 10px; background: var(--cream-2); font-family: var(--font-title); font-size: 9px; box-shadow: 0 0 0 3px var(--ink); cursor: pointer; }
+  .mobile-tabs button { flex: 1; border: 0; padding: 10px; background: var(--cream-2); font-weight: 700; font-size: 14px; box-shadow: 0 0 0 3px var(--ink); cursor: pointer; }
   .mobile-tabs button.on { background: var(--gold); }
   .battle-grid.show-enemy .own-side, .battle-grid.show-own .enemy-side { display: none; }
-  .msg { font-size: 23px; min-height: 48px; }
+  .msg { font-size: 16px; min-height: 48px; }
   .desk-only { display: none; }
-  .h-row { grid-template-columns: 1fr 1fr; font-size: 17px; }
+  .h-row { grid-template-columns: 1fr 1fr; font-size: 14px; }
   .h-date { text-align: left; }
   .opp-bar { grid-template-columns: 90px 1fr 50px; }
 }
