@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { BABY, BABY_ANGRY, BALLOON, HEAD, HEAD_ANGRY, PixelSprite } from './sprites';
+import { BABY, BABY_ANGRY, BALLOON, H_HEAD_GRUMPY, H_HEAD_SLEEP, HEAD, HEAD_ANGRY, PixelSprite } from './sprites';
 import { Marmot } from './Marmot';
 import { Portrait } from './Portrait';
 import { sfx } from '../lib/sound';
@@ -164,7 +164,10 @@ export function SteppeParade() {
       ))}
       <div className="sleeper" onClick={wake}>
         {awake ? <span className="grr">#!&amp;</span> : <span className="zzz">z<span>z</span><span>z</span></span>}
-        <div className={awake ? 'hop' : ''}><Marmot length={4} orientation="h" face={awake ? 'grumpy' : 'sleep'} /></div>
+        <div className={awake ? 'hop' : ''}>
+          <Marmot length={4} orientation="h" face={awake ? 'grumpy' : 'sleep'} className="sleeper-full" />
+          <PixelSprite rows={awake ? H_HEAD_GRUMPY : H_HEAD_SLEEP} className="sleeper-head" />
+        </div>
       </div>
     </div>
   );
