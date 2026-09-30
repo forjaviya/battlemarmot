@@ -4,7 +4,7 @@ import type { Difficulty } from '../game/types';
 import { FlyingMarmots, SteppeParade } from '../ui/Scenery';
 import { sfx } from '../lib/sound';
 import { Portrait } from '../ui/Portrait';
-import { PEEK, PHONE, PixelSprite, STAR } from '../ui/sprites';
+import { PEEK, PHONE, PixelSprite } from '../ui/sprites';
 
 export function Home({ canResume, onResume, onNew, onStats, onRules }: { canResume: boolean; onResume: () => void; onNew: (d: Difficulty) => void; onStats: () => void; onRules: () => void }) {
   const [picking, setPicking] = useState(false);
@@ -36,7 +36,7 @@ export function Home({ canResume, onResume, onNew, onStats, onRules }: { canResu
           </div>
           <ul className="features">
             <li><span className="f-icon"><PixelSprite rows={PEEK.slice(4)} /></span><b>10 сурков</b><span>спрятать и найти</span></li>
-            <li><span className="f-icon"><PixelSprite rows={STAR} /></span><b>3 соперника</b><span>разной хитрости</span></li>
+            <li><span className="f-icon"><Portrait who="hard" mood="smug" size={46} /></span><b>3 соперника</b><span>разной хитрости</span></li>
             <li><span className="f-icon"><PixelSprite rows={PHONE} /></span><b>1 аккаунт</b><span>прогресс на любом устройстве</span></li>
           </ul>
         </div>

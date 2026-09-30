@@ -127,9 +127,9 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .parade { position: relative; z-index: 1; margin-top: auto; padding-top: 60px; margin-bottom: -8px; width: 100%; max-width: 900px; display: flex; align-items: flex-end; justify-content: center; gap: clamp(8px, 3vw, 36px); }
 .burrow { --w: clamp(56px, 11vw, 100px); position: relative; background: none; border: 0; padding: 0; cursor: pointer; width: var(--w); height: calc(var(--w) * .5); }
 .mound-back, .mound-front { position: absolute; left: 0; width: 100%; height: auto; display: block; }
-.mound-back { top: 0; }
+.mound-back { bottom: 0; }
 .mound-front { bottom: 0; z-index: 2; }
-.burrow-win { position: absolute; left: 12%; width: 76%; bottom: calc(var(--w) * .25 - 2px); height: calc(var(--w) * 2.6); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; z-index: 1; pointer-events: none; }
+.burrow-win { position: absolute; left: 12%; width: 76%; bottom: calc(var(--w) * .2); height: calc(var(--w) * 2.6); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; z-index: 1; pointer-events: none; }
 .peeker { width: 100%; animation: peek 6s steps(4) infinite; transform: translateY(100%); margin-bottom: calc(var(--w) * -.06); }
 .peeker svg { width: 100%; height: auto; display: block; }
 @keyframes peek { 0%, 12% { transform: translateY(100%); } 20%, 55% { transform: translateY(0); } 63%, 100% { transform: translateY(100%); } }
@@ -307,7 +307,6 @@ h3 { font-size: 12px; margin: 0 0 10px; }
   .flyer:nth-child(2) { display: none; }
   body { font-size: 16px; }
   .flyer:nth-child(n+4) { display: none; }
-  .sleeper { display: none; }
   main { padding: 0 12px 20px; }
   .setup-grid, .battle-grid { grid-template-columns: 1fr; gap: 18px; }
   .board-wrap, .own-side .board-wrap { width: 100%; }
@@ -416,3 +415,14 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
 .dock-item { padding: 6px 10px; }
 .dock-name { line-height: 1.15; }
 .dock .btn.primary.big { padding: 14px 20px; }
+
+.f-icon { height: 44px; width: 60px; }
+.f-icon .portrait { width: 44px !important; height: 44px !important; }
+.parade { justify-content: center; }
+@media (max-width: 760px) {
+  .sleeper { width: 40px; margin-left: auto; }
+  .sleeper .seg:not(:first-child) { display: none; }
+  .sleeper .marmot-h .seg:first-child { width: 100%; }
+  .zzz, .grr { left: -6px; }
+}
+.f-icon .portrait svg { height: 44px; width: 44px; }

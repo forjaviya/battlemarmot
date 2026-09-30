@@ -39,12 +39,10 @@ export function Backdrop() {
 
 const BALLOONS = [
   { top: 0, dur: 34, delay: -6, size: 1, color: '#e0413b', who: 'marmot' as const },
-  { top: 5, dur: 48, delay: -30, size: 0.75, color: '#fff8e8', who: 'marmot' as const },
+  { top: 5, dur: 48, delay: -30, size: 0.75, color: '#f3e3c3', who: 'marmot' as const },
   { top: 3, dur: 60, delay: -44, size: 0.65, color: '#ffd23f', who: 'marmot' as const },
   // соперники пролетают редко: пересекают экран за первую треть цикла, потом долго «за кадром»
-  { top: 6, dur: 90, delay: -5, size: 0.9, color: '#ffd23f', who: 'normal' as const, rare: true },
-  { top: 2, dur: 90, delay: -35, size: 0.8, color: '#fff8e8', who: 'easy' as const, rare: true },
-  { top: 8, dur: 90, delay: -65, size: 0.95, color: '#e0413b', who: 'hard' as const, rare: true },
+  { top: 2, dur: 80, delay: -20, size: 0.8, color: '#f3e3c3', who: 'easy' as const, rare: true },
 ];
 
 /** Сурки на воздушных шариках пролетают над степью. */
@@ -55,7 +53,7 @@ export function FlyingMarmots() {
         <div key={i} className={`flyer ${'rare' in b ? 'rare' : ''}`} style={{ top: `${b.top}%`, animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s`, ['--s' as string]: b.size }}>
           <div className="flyer-bob" style={{ animationDelay: `${-i * 0.7}s` }}>
             <PixelSprite rows={BALLOON} pal={{ r: b.color }} className="balloon" />
-            {b.who === 'marmot' ? <PixelSprite rows={BABY} className="hanger" /> : <Portrait who={b.who} mood={b.who === 'hard' ? 'smug' : 'alert'} shades={b.who === 'hard'} size={52} className="hanger sway" />}
+            {b.who === 'marmot' ? <PixelSprite rows={BABY} className="hanger" /> : <Portrait who={b.who} mood="alert" size={52} className="hanger sway" />}
           </div>
         </div>
       ))}
@@ -74,8 +72,9 @@ const MOUND = [
   '....qqqqqqqq....',
 ];
 
-const MOUND_BACK = MOUND.slice(0, 4);
-const MOUND_FRONT = MOUND.slice(4);
+const MOUND_BACK = MOUND;
+// передний край норки: те же размеры, но верхние ряды пустые — без швов
+const MOUND_FRONT = MOUND.map((row, y) => (y < 5 ? '.'.repeat(16) : row));
 const SPLASH = [[-34, -26], [-22, -40], [-8, -48], [10, -46], [24, -38], [36, -24], [-30, -10], [32, -8]];
 
 type Act = 'hop' | 'tall' | null;
@@ -110,9 +109,6 @@ export function SteppeParade() {
 
   return (
     <div className="parade">
-      <div className="lookout" onClick={() => poke(99)}>
-        <div className={act[99] ? 'hop' : ''}><Marmot length={4} orientation="v" /></div>
-      </div>
       {[0, 1, 2, 3, 4].map((i) => (
         <button key={i} className="burrow" onClick={() => poke(i)} aria-label="Сурок в норке">
           <PixelSprite rows={MOUND_BACK} className="mound-back" />
