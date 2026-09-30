@@ -52,7 +52,7 @@ export function Stats({ userId, nickname, onBack, onLogin }: { userId: string | 
                 const x = st.byDifficulty[d];
                 const pct = x.total ? Math.round((x.wins / x.total) * 100) : 0;
                 const mood = !x.total ? 'neutral' : pct >= 60 ? 'worried' : pct >= 40 ? 'alert' : 'smug';
-                const filled = Math.round(pct / 10);
+                const recent = games!.filter((g) => g.difficulty === d).slice(0, 10).reverse();
                 return (
                   <div key={d} className={`opp-card opp-${d}`}>
                     <Portrait who={d} mood={mood} size={64} className="idle" />
@@ -61,8 +61,8 @@ export function Stats({ userId, nickname, onBack, onLogin }: { userId: string | 
                       {x.total ? (
                         <>
                           <span className="oc-pct">{pct}%</span>
-                          <div className="oc-blocks" aria-label={`Побед: ${pct}%`}>
-                            {Array.from({ length: 10 }, (_, i) => <i key={i} className={i < filled ? 'on' : ''} />)}
+                          <div className="oc-blocks" aria-label="Последние партии: зелёный — победа, красный — поражение">
+                            {Array.from({ length: 10 }, (_, i) => <i key={i} className={recent[i] ? (recent[i].won ? 'w' : 'l') : ''} />)}
                           </div>
                           <span className="oc-sub">{x.wins} {x.wins === 1 ? 'победа' : x.wins >= 2 && x.wins <= 4 ? 'победы' : 'побед'} из {x.total}</span>
                         </>
@@ -74,6 +74,7 @@ export function Stats({ userId, nickname, onBack, onLogin }: { userId: string | 
                 );
               })}
             </div>
+            <p className="form-legend">Квадратики — последние 10 партий: <span><i style={{ background: '#6fb04a' }} />победа</span><span><i style={{ background: '#e0413b' }} />поражение</span></p>
           </div>
           <div className="panel">
             <h3>История партий</h3>

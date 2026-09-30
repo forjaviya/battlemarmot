@@ -112,9 +112,11 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .menu-row .btn { flex: 1; }
 
 .features { list-style: none; padding: 0; margin: 26px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.features li { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; line-height: 1.25; color: var(--ink); }
-.features svg { width: 30px; height: auto; }
-.features b { display: block; font-family: var(--font-title); font-weight: 400; font-size: 13px; color: var(--accent); margin-bottom: 2px; }
+
+.features li { display: grid; grid-template-rows: 44px 24px auto; justify-items: center; align-items: start; row-gap: 6px; font-size: 14px; font-weight: 500; line-height: 1.3; color: var(--ink); }
+.f-icon { height: 44px; display: flex; align-items: flex-end; justify-content: center; }
+.f-icon svg { height: 36px; width: auto; }
+.features b { font-family: var(--font-title); font-weight: 400; font-size: 11px; color: var(--accent); white-space: nowrap; align-self: center; }
 .flyers { position: absolute; inset: 0 -16px auto; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
 .flyer { position: absolute; left: 0; animation: fly linear infinite; }
 .flyer-bob { display: flex; flex-direction: column; align-items: center; transform: scale(var(--s)); transform-origin: top center; animation: bobx 2.2s ease-in-out infinite; }
@@ -344,6 +346,35 @@ h3 { font-size: 12px; margin: 0 0 10px; }
 .oc-pct { font-family: var(--font-title); font-size: 18px; color: var(--accent); }
 .oc-blocks { display: flex; gap: 2px; }
 .oc-blocks i { width: 9px; height: 12px; background: #eadbb8; box-shadow: 0 0 0 1px var(--ink-soft); }
-.oc-blocks i.on { background: var(--c); }
+.oc-blocks i.w { background: #6fb04a; }
+.oc-blocks i.l { background: #e0413b; }
+.form-legend { display: flex; gap: 14px; margin: 12px 0 0; font-size: 13px; color: var(--ink-soft); }
+.form-legend i { display: inline-block; width: 9px; height: 12px; margin-right: 5px; vertical-align: -1px; box-shadow: 0 0 0 1px var(--ink-soft); }
 .oc-sub { font-size: 13px; color: var(--ink-soft); }
 @media (max-width: 760px) { .stat-cards { grid-template-columns: repeat(2, 1fr); } .opp-cards { grid-template-columns: 1fr; } .think { right: -10px; } }
+
+/* ---------- Сетка выравнивания (невидимая) ---------- */
+:root { --axw: 30px; --gut: 16px; }
+.topbar { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gut) + var(--axw)); }
+main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gut) + var(--axw)); }
+.brand { padding: 0; }
+.btn.ghost { padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0; }
+.board-wrap { position: relative; display: grid; grid-template-columns: 1fr; grid-template-rows: 24px auto; width: min(100%, 460px); }
+.board-wrap.compact { width: min(100%, 320px); }
+.axis-top { grid-column: 1; grid-row: 1; align-items: end; padding-bottom: 6px; }
+.axis-left { position: absolute; left: calc(-1 * var(--axw)); top: 24px; bottom: 0; width: var(--axw); grid-row: auto; padding-right: 10px; }
+.board { grid-column: 1; grid-row: 2; }
+.battle .msg, .setup .dock { margin-left: 0; margin-right: 0; }
+.battle-grid { margin-top: 26px; }
+.side h3 { margin: 0 0 18px; }
+.own-side { justify-self: end; width: min(100%, 340px); }
+.own-side .board-wrap { width: 100%; }
+.setup-toolbar { margin-left: 0; }
+.fleet-left { margin-top: 20px; }
+@media (max-width: 760px) {
+  :root { --axw: 22px; --gut: 8px; }
+  .features { gap: 8px; }
+  .features b { font-size: 9px; }
+  .axis-left { padding-right: 6px; }
+  .own-side { justify-self: stretch; width: 100%; }
+}

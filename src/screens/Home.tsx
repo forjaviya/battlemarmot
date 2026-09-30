@@ -30,9 +30,9 @@ export function Home({ canResume, onResume, onNew, onStats, onRules }: { canResu
             <button className="btn sand" onClick={onRules}>Как играть</button>
           </div>
           <ul className="features">
-            <li><PixelSprite rows={PEEK} /><span><b>3</b>соперника разной хитрости</span></li>
-            <li><PixelSprite rows={STAR} /><span><b>10 сурков</b>спрятать и найти</span></li>
-            <li><PixelSprite rows={PHONE} /><span><b>1 аккаунт</b>прогресс на любом устройстве</span></li>
+            <li><span className="f-icon"><PixelSprite rows={PEEK.slice(4)} /></span><b>3 соперника</b><span>разной хитрости</span></li>
+            <li><span className="f-icon"><PixelSprite rows={STAR} /></span><b>10 сурков</b><span>спрятать и найти</span></li>
+            <li><span className="f-icon"><PixelSprite rows={PHONE} /></span><b>1 аккаунт</b><span>прогресс на любом устройстве</span></li>
           </ul>
         </div>
       ) : (

@@ -87,9 +87,6 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
     <div className="screen battle">
       <div className="screen-head">
         <button className="btn ghost small" onClick={onExit}>Меню</button>
-        <div className={`turn-badge ${myTurn ? 'me' : 'them'}`} role="status" aria-live="polite">
-          {myTurn ? 'Твой ход' : `Ход: ${opp.name}`}
-        </div>
       </div>
       <div className="msg panel" aria-live="polite">
         <Portrait who={game.difficulty} mood={mood} size={64} thinking={game.turn === 'ai' && game.phase === 'battle'} className="idle" />

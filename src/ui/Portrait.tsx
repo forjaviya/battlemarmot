@@ -14,6 +14,7 @@ const COLORS: Record<string, string> = {
   F: '#e07a2a', W: '#fff6e8', G: '#b85a18',
   // беркут
   E: '#5a3a1e', A: '#c89a3a', H: '#f2c14e',
+  K: '#7a4a22', J: '#5a3416', Z: '#e0b04a',
 };
 
 const LARK = mirror([
@@ -113,6 +114,19 @@ const MOUTH: Record<Difficulty, Partial<Record<Mood, Px[]>>> = {
   },
 };
 
+// Калпак с узором для беркута (рисуется поверх макушки, ряды y = -4…4)
+const KALPAK = mirror([
+  '.......o',
+  '......oK',
+  '.....oKK',
+  '.....oKZ',
+  'o...oKZK',
+  'Jo..oKKK',
+  'oJooJJJJ',
+  'oJZJZJZJ',
+  '.ooooooo',
+]);
+
 const BASES: Record<Difficulty, string[]> = { easy: LARK, normal: FOX, hard: EAGLE };
 
 function Rects({ px, cls }: { px: Px[]; cls?: string }) {
@@ -141,6 +155,7 @@ export function Portrait({ who, mood = 'neutral', size = 64, className, thinking
     <div className={`portrait p-${who} mood-${mood} ${className ?? ''}`} style={{ width: size, height: size }}>
       <svg viewBox="-1 -3 18 20" width={size} height={size} shapeRendering="crispEdges" aria-hidden>
         {rects}
+        {who === 'hard' && KALPAK.map((row, j) => [...row].map((c, x) => (c === '.' ? null : <rect key={`k${x}-${j}`} x={x} y={j - 4} width={1} height={1} fill={COLORS[c]} />)))}
         <Rects px={EYES[mood]} cls="eyes" />
         <Rects px={MOUTH[who][mood] ?? []} />
         {sweat && (
