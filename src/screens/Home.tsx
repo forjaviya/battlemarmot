@@ -1,32 +1,37 @@
 import { useState } from 'react';
 import { APP_NAME, APP_TAGLINE, OPPONENTS } from '../config';
 import type { Difficulty } from '../game/types';
-import { Marmot } from '../ui/Marmot';
+import { FlyingMarmots, SteppeParade } from '../ui/Scenery';
 import { sfx } from '../lib/sound';
 
 export function Home({ canResume, onResume, onNew, onStats, onRules }: { canResume: boolean; onResume: () => void; onNew: (d: Difficulty) => void; onStats: () => void; onRules: () => void }) {
   const [picking, setPicking] = useState(false);
   return (
     <div className="screen home">
+      <FlyingMarmots />
       <div className="hero">
-        <div className="hero-marmots" aria-hidden>
-          <Marmot length={1} orientation="v" className="bob d2" />
-          <Marmot length={3} orientation="v" className="bob" />
-          <Marmot length={2} orientation="v" className="bob d1" />
-        </div>
-        <h1 className="logo">{APP_NAME}</h1>
+        <h1 className="logo">
+          {APP_NAME.split('').map((ch, i) => (
+            <span key={i} className="logo-ch" style={{ animationDelay: `${i * 0.12}s` }}>{ch}</span>
+          ))}
+        </h1>
         <p className="tagline">{APP_TAGLINE}</p>
         <p className="lead">Спрячь своих сурков в норках, найди всех сурков соседа первым. Партия — минут пять, как раз на перемену.</p>
       </div>
 
       {!picking ? (
         <div className="menu">
-          {canResume && <button className="btn primary big" onClick={() => { sfx.click(); onResume(); }}>▶ Продолжить партию</button>}
-          <button className={`btn ${canResume ? '' : 'primary'} big`} onClick={() => { sfx.click(); setPicking(true); }}>Новая игра</button>
+          {canResume && <button className="btn primary big" onClick={() => { sfx.click(); onResume(); }}>▶ Продолжить</button>}
+          <button className={`btn ${canResume ? 'sand' : 'primary'} big`} onClick={() => { sfx.click(); setPicking(true); }}>Новая игра</button>
           <div className="menu-row">
-            <button className="btn" onClick={onStats}>📊 Статистика</button>
-            <button className="btn" onClick={onRules}>❓ Как играть</button>
+            <button className="btn sand" onClick={onStats}>Статистика</button>
+            <button className="btn sand" onClick={onRules}>Как играть</button>
           </div>
+          <ul className="chips">
+            <li>3 соперника</li>
+            <li>5 минут на партию</li>
+            <li>Прогресс на любом устройстве</li>
+          </ul>
         </div>
       ) : (
         <div className="panel opponents">
@@ -43,6 +48,8 @@ export function Home({ canResume, onResume, onNew, onStats, onRules }: { canResu
           <button className="btn ghost small" onClick={() => setPicking(false)}>← Назад</button>
         </div>
       )}
+
+      <SteppeParade />
     </div>
   );
 }

@@ -3,6 +3,8 @@
 
 import type { CSSProperties } from 'react';
 
+const mirror = (half: string[]) => half.map((row) => row + [...row].reverse().join(''));
+
 export const PAL: Record<string, string> = {
   o: '#3d2413', // контур
   b: '#c68b4e', // шёрстка
@@ -20,9 +22,66 @@ export const PAL: Record<string, string> = {
   h: '#4a2e17', // нора
   e: '#8a6238', // земля
   x: '#2a1a0d', // глубина норы
+  s: '#d44e00', // фирменный оранжевый
+  S: '#9c3900',
+  q: '#e7c27d', // песок
+  Q: '#c9964f', // песок тёмный
 };
 
-const mirror = (half: string[]) => half.map((row) => row + [...row].reverse().join(''));
+export const BALLOON = mirror([
+  '...ooo',
+  '.oorrr',
+  'orrrrr',
+  'orwrrr',
+  'orwrrr',
+  'orrrrr',
+  'orrrrr',
+  '.orrrr',
+  '..orrr',
+  '...oor',
+  '....oo',
+  '.....o',
+  '.....o',
+  '.....o',
+]);
+
+export const STAR = mirror([
+  '...o',
+  '..oy',
+  '..oy',
+  'oooy',
+  'oyyy',
+  '.oyy',
+  '..oy',
+  '.oyy',
+  '.oyo',
+  'oyo.',
+  'oo..',
+]);
+
+export const SPEAKER = [
+  '....oo....',
+  '...oto....',
+  'oooott..o.',
+  'otttot.o.o',
+  'otttot.o.o',
+  'otttot.o.o',
+  'oooott..o.',
+  '...oto....',
+  '....oo....',
+];
+export const SPEAKER_OFF = [
+  '....oo....',
+  '...oto....',
+  'oooott....',
+  'otttot.o.o',
+  'otttot..o.',
+  'otttot.o.o',
+  'oooott....',
+  '...oto....',
+  '....oo....',
+];
+
 
 export const HEAD = mirror([
   '........',
@@ -189,18 +248,19 @@ export const HOLE = mirror([
   '........',
 ]);
 
-export function PixelSprite({ rows, size = 16, style, className }: { rows: string[]; size?: number; style?: CSSProperties; className?: string }) {
+export function PixelSprite({ rows, size = 16, style, className, pal }: { rows: string[]; size?: number; style?: CSSProperties; className?: string; pal?: Record<string, string> }) {
+  const P = pal ? { ...PAL, ...pal } : PAL;
   const w = rows[0].length;
   const h = rows.length;
   const rects = [];
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const ch = rows[y][x];
-      if (ch === '.' || !PAL[ch]) continue;
+      if (ch === '.' || !P[ch]) continue;
       // сливаем горизонтальные отрезки одного цвета — меньше DOM-узлов
       let len = 1;
       while (x + len < w && rows[y][x + len] === ch) len++;
-      rects.push(<rect key={`${x}-${y}`} x={x} y={y} width={len} height={1} fill={PAL[ch]} />);
+      rects.push(<rect key={`${x}-${y}`} x={x} y={y} width={len} height={1} fill={P[ch]} />);
       x += len - 1;
     }
   }

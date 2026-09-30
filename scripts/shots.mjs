@@ -6,7 +6,7 @@ for (const [name, vp] of [['desk',{width:1280,height:860}],['mob',{width:390,hei
   p.on('pageerror', e=>console.log('ERR',e.message));
   await p.goto('http://localhost:4173'); await p.waitForTimeout(800);
   await p.screenshot({path:`${out}/${name}-1home.png`, fullPage:true});
-  await p.getByText('Новая игра').click();
+  await p.getByText('Новая игра').first().click();
   await p.screenshot({path:`${out}/${name}-2opp.png`, fullPage:true});
   await p.getByText('Лиса', {exact:true}).click();
   await p.locator('[data-cell="2-2"]').first().click();

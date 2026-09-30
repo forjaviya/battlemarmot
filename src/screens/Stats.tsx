@@ -27,7 +27,7 @@ export function Stats({ userId, nickname, onBack, onLogin }: { userId: string | 
         <h2>Статистика{nickname ? `: ${nickname}` : ''}</h2>
       </div>
       <p className="hint">
-        {source === 'cloud' ? '☁ Данные аккаунта — видны на любом устройстве.' : <>📱 Данные этого устройства. {!userId && <button className="link" onClick={onLogin}>Войди</button>}{!userId && ', чтобы сохранять в облако.'}</>}
+        {source === 'cloud' ? 'Данные аккаунта — видны на любом устройстве.' : <>Данные этого устройства. {!userId && <button className="link" onClick={onLogin}>Войди</button>}{!userId && ', чтобы сохранять в облако.'}</>}
         {error && <span className="err"> (облако недоступно: {error})</span>}
       </p>
       {!st ? (

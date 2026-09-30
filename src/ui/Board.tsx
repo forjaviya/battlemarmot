@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { blockedCells, isSunk } from '../game/board';
 import { SIZE, type BoardState, type Marmot as M } from '../game/types';
 import { Marmot } from './Marmot';
-import { PEEK, PixelSprite } from './sprites';
+import { PEEK, PixelSprite, STAR } from './sprites';
 import { HOLE_TILE, tileFor } from './tiles';
 
 export const COLS = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К'];
@@ -111,7 +111,7 @@ export function Board({ board, kind, seed = 0, onCell, onCellContext, disabled, 
                 }}
               >
                 <Marmot length={m.length} orientation={m.orientation} dim={kind === 'own' && sunk} />
-                {sunk && kind === 'enemy' && <span className="star pop">★</span>}
+                {sunk && kind === 'enemy' && <PixelSprite rows={STAR} className="star pop" />}
               </div>
             );
           })}

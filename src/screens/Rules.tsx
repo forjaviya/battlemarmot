@@ -1,5 +1,5 @@
 import { Marmot } from '../ui/Marmot';
-import { HOLE, PEEK, PixelSprite } from '../ui/sprites';
+import { HOLE, PEEK, PixelSprite, STAR } from '../ui/sprites';
 import { MARMOT_NAMES } from '../ui/sprites';
 
 export function Rules({ onBack }: { onBack: () => void }) {
@@ -26,7 +26,7 @@ export function Rules({ onBack }: { onBack: () => void }) {
         <ul className="legend">
           <li><PixelSprite rows={HOLE} size={28} /> <b>Пусто</b> — ход переходит сопернику.</li>
           <li><PixelSprite rows={PEEK} size={28} /> <b>Попался!</b> — нашёл часть сурка, ходи ещё раз и ищи рядом.</li>
-          <li><span className="legend-star">★</span> <b>Сурок найден</b> — целиком. Клетки вокруг него автоматически отмечаются как пустые.</li>
+          <li><PixelSprite rows={STAR} className="legend-star" /> <b>Сурок найден</b> — целиком. Клетки вокруг него автоматически отмечаются как пустые.</li>
         </ul>
         <p>В одну клетку дважды заглянуть нельзя. Побеждает тот, кто первым найдёт всех 10 сурков соседа.</p>
         <h3>3. Соперники</h3>

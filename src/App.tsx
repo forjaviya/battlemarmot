@@ -13,6 +13,8 @@ import { Result } from './screens/Result';
 import { Stats } from './screens/Stats';
 import { Rules } from './screens/Rules';
 import { AuthModal } from './screens/AuthModal';
+import { Backdrop } from './ui/Scenery';
+import { PixelSprite, SPEAKER, SPEAKER_OFF } from './ui/sprites';
 
 type Screen = 'home' | 'setup' | 'battle' | 'result' | 'stats' | 'rules';
 
@@ -54,12 +56,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <div className="sky" aria-hidden>
-        <div className="sun" />
-        <div className="cloud c1" />
-        <div className="cloud c2" />
-        <div className="hills" />
-      </div>
+      <Backdrop />
       <header className="topbar">
         <button className="brand" onClick={() => setScreen('home')}>{APP_NAME}</button>
         <div className="top-actions">
@@ -68,11 +65,11 @@ export default function App() {
             aria-label={muted ? 'Включить звук' : 'Выключить звук'}
             onClick={() => { setMuted(!muted); setMutedState(!muted); if (muted) sfx.click(); }}
           >
-            {muted ? '🔇' : '🔊'}
+            <PixelSprite rows={muted ? SPEAKER_OFF : SPEAKER} size={24} />
           </button>
           {authEnabled && (user ? (
             <div className="user">
-              <span className="nick">👤 {nickname}</span>
+              <span className="nick">{nickname}</span>
               <button className="btn ghost small" onClick={() => signOut()}>Выйти</button>
             </div>
           ) : (
