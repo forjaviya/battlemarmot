@@ -23,7 +23,7 @@ export function Home({ canResume, onResume, onNew, onStats, onRules }: { canResu
           <span className="sr-only">{APP_NAME}</span>
         </h1>
         <p className="tagline">{APP_TAGLINE}</p>
-        <p className="lead">Спрячь своих сурков в норках и найди всех сурков соседа первым.</p>
+        <p className="lead">Спрячь своих сурков в норках и найди всех сурков соперника первым.</p>
       </div>
 
       {!picking ? (

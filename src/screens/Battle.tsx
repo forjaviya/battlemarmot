@@ -35,7 +35,7 @@ const say = (r: ShotResult) => PHRASES[r][Math.floor(Math.random() * PHRASES[r].
 
 export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g: GameState) => void; onExit: () => void }) {
   const opp = OPPONENTS[game.difficulty];
-  const [msg, setMsg] = useState<string>(game.turn === 'player' ? 'Твой ход - загляни в норку соседа' : `${opp.name} ищет…`);
+  const [msg, setMsg] = useState<string>(game.turn === 'player' ? 'Твой ход - загляни в норку соперника' : `${opp.name} ищет…`);
   const [lastPlayer, setLastPlayer] = useState<{ row: number; col: number } | null>(null);
   const [lastAi, setLastAi] = useState<{ row: number; col: number } | null>(null);
   const [mobileView, setMobileView] = useState<'enemy' | 'own'>('enemy');
@@ -59,7 +59,7 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
     return () => clearTimeout(t);
   }, [game, opp.name, setGame]);
 
-  // На телефоне: когда ход вернулся к игроку - через секунду показываем поле соседа
+  // На телефоне: когда ход вернулся к игроку - через секунду показываем поле соперника
   useEffect(() => {
     if (game.turn !== 'player' || game.phase !== 'battle') return;
     const t = setTimeout(() => setMobileView('enemy'), 1100);
@@ -96,7 +96,7 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
       </div>
 
       <div className="mobile-tabs">
-        <button className={mobileView === 'enemy' ? 'on' : ''} onClick={() => setMobileView('enemy')}>Поле соседа</button>
+        <button className={mobileView === 'enemy' ? 'on' : ''} onClick={() => setMobileView('enemy')}>Поле соперника</button>
         <button className={mobileView === 'own' ? 'on' : ''} onClick={() => setMobileView('own')}>Мои сурки</button>
       </div>
 
