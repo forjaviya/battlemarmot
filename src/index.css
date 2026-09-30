@@ -489,3 +489,22 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
   .brand-text { display: none; }
   .brand-icon { width: 40px; }
 }
+
+/* Профиль в шапке */
+.profile { position: relative; }
+.profile-btn { display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer; background: var(--cream); padding: 5px 10px 5px 6px; font-weight: 700; font-size: 15px; box-shadow: 0 -3px 0 0 var(--ink), 0 3px 0 0 var(--ink), -3px 0 0 0 var(--ink), 3px 0 0 0 var(--ink); max-width: 200px; }
+.profile-btn:hover { background: #fff; }
+.profile-ava { width: 28px; height: auto; flex-shrink: 0; }
+.profile-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.profile-caret { width: 10px; height: 6px; background: var(--ink); clip-path: polygon(0 0, 100% 0, 50% 100%); flex-shrink: 0; }
+.profile-caret.up { transform: rotate(180deg); }
+.profile-menu { position: absolute; right: 0; top: calc(100% + 12px); z-index: 60; width: 260px; display: flex; flex-direction: column; gap: 4px; padding: 12px; margin: 0; }
+.pm-head { display: flex; flex-direction: column; gap: 2px; padding: 2px 4px 10px; margin-bottom: 4px; border-bottom: 2px dashed #e2cfa6; }
+.pm-head b { color: var(--ink); font-size: 16px; overflow: hidden; text-overflow: ellipsis; }
+.pm-head span { font-size: 13px; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; }
+.pm-item { display: flex; align-items: center; gap: 10px; border: 0; background: none; text-align: left; padding: 9px 6px; cursor: pointer; font-size: 15px; font-weight: 500; }
+.pm-item:hover, .pm-item:focus-visible { background: #fbe6bb; outline: none; }
+.pm-out { color: var(--accent-d); }
+.pm-login { margin-top: 6px; }
+@media (max-width: 560px) { .profile-name { max-width: 110px; } .profile-menu { width: min(260px, calc(100vw - 24px)); } }
+.topbar { position: relative; z-index: 70; }

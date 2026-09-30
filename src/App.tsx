@@ -14,7 +14,8 @@ import { Stats } from './screens/Stats';
 import { Rules } from './screens/Rules';
 import { AuthModal } from './screens/AuthModal';
 import { Backdrop } from './ui/Scenery';
-import { BABY, PixelSprite, SPEAKER, SPEAKER_OFF } from './ui/sprites';
+import { BABY, PixelSprite } from './ui/sprites';
+import { ProfileMenu } from './ui/ProfileMenu';
 
 type Screen = 'home' | 'setup' | 'battle' | 'result' | 'stats' | 'rules';
 
@@ -60,21 +61,16 @@ export default function App() {
       <header className="topbar">
         <button className="brand" onClick={() => setScreen('home')} aria-label={APP_NAME}><PixelSprite rows={BABY} className="brand-icon" /><span className="brand-text">{APP_NAME}</span></button>
         <div className="top-actions">
-          <button
-            className="icon-btn"
-            aria-label={muted ? 'Включить звук' : 'Выключить звук'}
-            onClick={() => { setMuted(!muted); setMutedState(!muted); if (muted) sfx.click(); }}
-          >
-            <PixelSprite rows={muted ? SPEAKER_OFF : SPEAKER} size={24} />
-          </button>
-          {authEnabled && (user ? (
-            <div className="user">
-              <span className="nick">{nickname}</span>
-              <button className="btn ghost small" onClick={() => signOut()}>Выйти</button>
-            </div>
-          ) : (
-            <button className="btn small" onClick={() => setAuthOpen(true)}>Войти</button>
-          ))}
+          <ProfileMenu
+            nickname={user ? nickname : null}
+            email={user?.email}
+            muted={muted}
+            onToggleSound={() => { setMuted(!muted); setMutedState(!muted); if (muted) sfx.click(); }}
+            onStats={() => setScreen('stats')}
+            onLogin={() => setAuthOpen(true)}
+            onLogout={() => signOut()}
+            authEnabled={authEnabled}
+          />
         </div>
       </header>
 
