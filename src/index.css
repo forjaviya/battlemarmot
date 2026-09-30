@@ -421,9 +421,12 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
 .f-icon .portrait { width: 44px !important; height: 44px !important; }
 .parade { justify-content: center; }
 @media (max-width: 760px) {
-  .sleeper { width: 40px; margin-left: auto; }
+  .sleeper { width: 40px; }
   .sleeper .seg:not(:first-child) { display: none; }
   .sleeper .marmot-h .seg:first-child { width: 100%; }
   .zzz, .grr { left: -6px; }
 }
 .f-icon .portrait svg { height: 44px; width: 44px; }
+
+.parade { justify-content: center; gap: clamp(10px, 3vw, 36px); }
+.parade > * { flex: none; margin-left: 0; margin-right: 0; }

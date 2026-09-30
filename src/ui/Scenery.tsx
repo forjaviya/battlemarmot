@@ -121,16 +121,11 @@ export function SteppeParade() {
     if (b.mode !== 'idle') return;
     if (!b.up) { patch(i, { up: true }); sfx.click(); schedule(i, 2500); return; }
     if (BIG(i)) {
-      if (Math.random() < 0.5) {
-        patch(i, { mode: 'hop' }); sfx.hit();
-        setTimeout(() => patch(i, { mode: 'idle' }), 520);
-        schedule(i, 2400);
-      } else {
-        patch(i, { mode: 'tall' }); sfx.hit();
-        setTimeout(() => puff(i), 820);
-        setTimeout(() => patch(i, { mode: 'idle', up: false }), 1000);
-        schedule(i, 3200);
-      }
+      // толстый всегда вытягивается высоким столбиком и ныряет обратно с песком
+      patch(i, { mode: 'tall' }); sfx.hit();
+      setTimeout(() => puff(i), 820);
+      setTimeout(() => patch(i, { mode: 'idle', up: false }), 1000);
+      schedule(i, 3200);
     } else {
       patch(i, { mode: 'angry' }); sfx.bad();
       setTimeout(() => { patch(i, { mode: 'idle', up: false }); puff(i); }, 650);
