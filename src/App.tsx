@@ -102,7 +102,7 @@ export default function App() {
       </main>
 
       <footer className="foot">
-        {APP_NAME} · прятки сурков · сделано для Narxoz Incubator 2026
+        {APP_NAME} <span className="foot-sep">|</span> made for Narxoz Incubator 2026
       </footer>
 
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}

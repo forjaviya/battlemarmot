@@ -4,9 +4,9 @@
 import type { GameSummary } from '../game/engine';
 import type { GameState, Marmot } from '../game/types';
 
-const K_GAME = 'suyr.game.v1';
-const K_LAYOUT = 'suyr.layout.v1';
-const K_HISTORY = 'suyr.history.v1';
+const K_GAME = 'battlemarmot.game.v1';
+const K_LAYOUT = 'battlemarmot.layout.v1';
+const K_HISTORY = 'battlemarmot.history.v1';
 
 function read<T>(key: string): T | null {
   try {

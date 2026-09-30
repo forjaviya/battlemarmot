@@ -3,13 +3,13 @@
 let ctx: AudioContext | null = null;
 let muted = false;
 try {
-  muted = localStorage.getItem('suyr.muted') === '1';
+  muted = localStorage.getItem('battlemarmot.muted') === '1';
 } catch { /* ignore */ }
 
 export const isMuted = () => muted;
 export function setMuted(v: boolean) {
   muted = v;
-  try { localStorage.setItem('suyr.muted', v ? '1' : '0'); } catch { /* ignore */ }
+  try { localStorage.setItem('battlemarmot.muted', v ? '1' : '0'); } catch { /* ignore */ }
 }
 
 function tone(freq: number, dur: number, type: OscillatorType = 'square', delay = 0, vol = 0.06, slideTo?: number) {

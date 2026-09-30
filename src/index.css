@@ -478,3 +478,4 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
   .battle-grid { grid-template-columns: minmax(0, 1fr); }
 }
 .side h3 { height: 22px; display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; }
+.foot-sep { margin: 0 8px; opacity: .5; }
