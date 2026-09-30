@@ -9,7 +9,7 @@ export const COLS = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
 interface Props {
   board: BoardState;
-  /** own — своё поле (сурки видны), enemy — поле соперника (видно только найденное) */
+  /** own - своё поле (сурки видны), enemy - поле соперника (видно только найденное) */
   kind: 'own' | 'enemy';
   seed?: number;
   onCell?: (r: number, c: number) => void;

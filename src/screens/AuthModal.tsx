@@ -23,7 +23,7 @@ export function AuthModal({ onClose }: { onClose: () => void }) {
     <div className="modal-bg" onClick={onClose}>
       <form className="panel modal" onClick={(e) => e.stopPropagation()} onSubmit={submit}>
         <h2>{mode === 'in' ? 'Вход' : 'Регистрация'}</h2>
-        <p className="hint">Аккаунт хранит историю партий и статистику — открой игру на телефоне или ноутбуке, и прогресс будет с тобой.</p>
+        <p className="hint">Аккаунт хранит историю партий и статистику - открой игру на телефоне или ноутбуке, и прогресс будет с тобой.</p>
         {mode === 'up' && (
           <label>Никнейм<input value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={20} placeholder="Например, СуркоЛов" /></label>
         )}

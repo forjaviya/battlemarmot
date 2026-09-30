@@ -35,7 +35,7 @@ const say = (r: ShotResult) => PHRASES[r][Math.floor(Math.random() * PHRASES[r].
 
 export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g: GameState) => void; onExit: () => void }) {
   const opp = OPPONENTS[game.difficulty];
-  const [msg, setMsg] = useState<string>(game.turn === 'player' ? 'Твой ход — загляни в норку соседа' : `${opp.name} ищет…`);
+  const [msg, setMsg] = useState<string>(game.turn === 'player' ? 'Твой ход - загляни в норку соседа' : `${opp.name} ищет…`);
   const [lastPlayer, setLastPlayer] = useState<{ row: number; col: number } | null>(null);
   const [lastAi, setLastAi] = useState<{ row: number; col: number } | null>(null);
   const [mobileView, setMobileView] = useState<'enemy' | 'own'>('enemy');
@@ -51,7 +51,7 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
       if (!res) return;
       setLastAi({ row: res.row, col: res.col });
       const where = `${COLS[res.col]}${res.row + 1}`;
-      if (res.result === 'miss') { sfx.miss(); setMsg(`${where} — пусто. Твой ход!`); }
+      if (res.result === 'miss') { sfx.miss(); setMsg(`${where} - пусто. Твой ход!`); }
       else if (res.result === 'hit') { sfx.hit(); setMsg(`${opp.fem ? 'Нашла' : 'Нашёл'} хвостик на ${where}!`); setMobileView('own'); }
       else { sfx.found(); setMsg(`${opp.fem ? 'Нашла' : 'Нашёл'} твоего сурка на ${where}!`); setMobileView('own'); }
       setGame(res.state);
@@ -59,7 +59,7 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
     return () => clearTimeout(t);
   }, [game, opp.name, setGame]);
 
-  // На телефоне: когда ход вернулся к игроку — через секунду показываем поле соседа
+  // На телефоне: когда ход вернулся к игроку - через секунду показываем поле соседа
   useEffect(() => {
     if (game.turn !== 'player' || game.phase !== 'battle') return;
     const t = setTimeout(() => setMobileView('enemy'), 1100);
@@ -71,7 +71,7 @@ export function Battle({ game, setGame, onExit }: { game: GameState; setGame: (g
     if (!res) return;
     setLastPlayer({ row: r, col: c });
     if (res.result === 'miss') { sfx.miss(); setMsg(`${COLS[c]}${r + 1}: ${say('miss')}`); }
-    else if (res.result === 'hit') { sfx.hit(); setMsg(`${COLS[c]}${r + 1}: ${say('hit')} Ищи рядом — ходи ещё.`); }
+    else if (res.result === 'hit') { sfx.hit(); setMsg(`${COLS[c]}${r + 1}: ${say('hit')} Ищи рядом - ходи ещё.`); }
     else { sfx.found(); setMsg(`${say('sunk')} Ходи ещё.`); }
     setGame(res.state);
   };

@@ -10,7 +10,7 @@ export function marmotCells(m: Pick<Marmot, 'row' | 'col' | 'length' | 'orientat
   return cells;
 }
 
-/** Клетки вокруг сурка (включая диагонали) — там по правилам не может быть других сурков. */
+/** Клетки вокруг сурка (включая диагонали) - там по правилам не может быть других сурков. */
 export function haloCells(m: Pick<Marmot, 'row' | 'col' | 'length' | 'orientation'>): [number, number][] {
   const own = new Set(marmotCells(m).map(([r, c]) => r * SIZE + c));
   const res: [number, number][] = [];
@@ -30,7 +30,7 @@ export function haloCells(m: Pick<Marmot, 'row' | 'col' | 'length' | 'orientatio
 
 /**
  * Можно ли поставить сурка: внутри поля, не пересекается и не касается других
- * (даже по диагонали — классическое правило).
+ * (даже по диагонали - классическое правило).
  */
 export function canPlace(
   marmots: Marmot[],
@@ -94,11 +94,11 @@ export function allSunk(board: BoardState): boolean {
 
 /**
  * Выстрел по полю. Возвращает новое состояние поля и результат.
- * Повторный выстрел в ту же клетку запрещён — возвращает null.
+ * Повторный выстрел в ту же клетку запрещён - возвращает null.
  */
 export function fire(board: BoardState, r: number, c: number): { board: BoardState; result: ShotResult; marmot?: Marmot } | null {
   if (!inBounds(r, c) || shotAt(board, r, c)) return null;
-  // Нельзя стрелять в клетку, которая точно пустая (вокруг найденного сурка) — она уже помечена
+  // Нельзя стрелять в клетку, которая точно пустая (вокруг найденного сурка) - она уже помечена
   if (blockedCells(board).has(r * SIZE + c)) return null;
   const m = marmotAt(board, r, c);
   if (!m) {
@@ -113,7 +113,7 @@ export function fire(board: BoardState, r: number, c: number): { board: BoardSta
   return { board: next, result: 'hit', marmot: m };
 }
 
-/** Клетки вокруг полностью найденных сурков — там гарантированно пусто. */
+/** Клетки вокруг полностью найденных сурков - там гарантированно пусто. */
 export function blockedCells(board: BoardState): Set<number> {
   const set = new Set<number>();
   for (const m of board.marmots) {

@@ -26,7 +26,7 @@ export function useAuth() {
 
 const ruError = (m: string) => {
   if (/Invalid login/i.test(m)) return 'Неверная почта или пароль';
-  if (/already registered/i.test(m)) return 'Такая почта уже зарегистрирована — попробуй войти';
+  if (/already registered/i.test(m)) return 'Такая почта уже зарегистрирована - попробуй войти';
   if (/Password should be/i.test(m)) return 'Пароль должен быть не короче 6 символов';
   if (/valid email|invalid format/i.test(m)) return 'Проверь адрес почты';
   if (/rate limit/i.test(m)) return 'Слишком много попыток, подожди минутку';

@@ -89,8 +89,8 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
         <span className="vs">против: <b>{OPPONENTS[difficulty].name}</b></span>
       </div>
       <p className="hint">
-        Выбери сурка и нажми на клетку. Сурки не могут стоять вплотную друг к другу — даже углами.
-        Нажми на уже поставленного, чтобы поднять его. <span className="desk-only">Правый клик или клавиша R — повернуть.</span>
+        Выбери сурка и нажми на клетку. Сурки не могут стоять вплотную друг к другу - даже углами.
+        Нажми на уже поставленного, чтобы поднять его. <span className="desk-only">Правый клик или клавиша R - повернуть.</span>
       </p>
 
       <div className="setup-toolbar">

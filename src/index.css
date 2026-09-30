@@ -470,7 +470,7 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
 .lookout .marmot .whole, .peeker.tall .marmot .whole, .sleeper .marmot .whole { height: auto; }
 .sleeper-head { display: none; width: 100%; height: auto; }
 
-/* Партия: оба поля одинакового размера (на широком — рядом, на узком — по вкладкам) */
+/* Партия: оба поля одинакового размера (на широком - рядом, на узком - по вкладкам) */
 .battle-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: calc(var(--axw) + 24px); }
 .battle .side, .battle .own-side { width: 100%; justify-self: stretch; }
 .battle .board-wrap, .battle .board-wrap.compact, .battle .own-side .board-wrap { width: 100%; }
@@ -480,7 +480,7 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
 .side h3 { height: 22px; display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; }
 .foot-sep { margin: 0 8px; opacity: .5; }
 
-/* Логотип в шапке: иконка сурка + название; на телефоне — только иконка */
+/* Логотип в шапке: иконка сурка + название; на телефоне - только иконка */
 .brand { display: inline-flex; align-items: center; gap: 10px; }
 .brand-icon { width: 34px; height: auto; flex-shrink: 0; }
 .topbar { gap: 12px; }

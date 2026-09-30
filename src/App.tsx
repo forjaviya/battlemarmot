@@ -44,7 +44,7 @@ export default function App() {
   }, [game, user]);
 
   useEffect(() => {
-    document.title = screen === 'battle' ? `${APP_NAME} — партия` : `${APP_NAME} — прятки сурков`;
+    document.title = screen === 'battle' ? `${APP_NAME} - партия` : `${APP_NAME} - прятки сурков`;
     window.scrollTo({ top: 0 });
   }, [screen]);
 

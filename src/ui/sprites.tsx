@@ -296,7 +296,7 @@ export function PixelSprite({ rows, size = 16, style, className, pal }: { rows: 
     for (let x = 0; x < w; x++) {
       const ch = rows[y][x];
       if (ch === '.' || !P[ch]) continue;
-      // сливаем горизонтальные отрезки одного цвета — меньше DOM-узлов
+      // сливаем горизонтальные отрезки одного цвета - меньше DOM-узлов
       let len = 1;
       while (x + len < w && rows[y][x + len] === ch) len++;
       rects.push(<rect key={`${x}-${y}`} x={x} y={y} width={len} height={1} fill={P[ch]} />);

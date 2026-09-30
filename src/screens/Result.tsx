@@ -24,7 +24,7 @@ export function Result({ game, onAgain, onMenu, loggedIn, onLogin }: { game: Gam
           <Portrait who={game.difficulty} mood={s.won ? 'sad' : 'happy'} size={72} className="idle" />
         </div>
         <h2>{s.won ? 'Все сурки найдены!' : `${opp.name} ${opp.fem ? 'оказалась' : 'оказался'} быстрее`}</h2>
-        <p className="sub">{s.won ? `Ты перехитрил(а) соперника «${opp.name}»` : 'Сурки соседа ещё прячутся — но реванш всегда возможен'}</p>
+        <p className="sub">{s.won ? `Ты перехитрил(а) соперника «${opp.name}»` : 'Сурки соседа ещё прячутся - но реванш всегда возможен'}</p>
         <div className="stat-row">
           <div><b>{s.shots}</b><span>норок проверено</span></div>
           <div><b>{Math.round(s.accuracy * 100)}%</b><span>точность</span></div>

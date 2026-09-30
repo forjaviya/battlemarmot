@@ -28,7 +28,7 @@ export function Stats({ userId, nickname, onBack, onLogin }: { userId: string | 
         <h2>Статистика{nickname ? `: ${nickname}` : ''}</h2>
       </div>
       <p className="hint">
-        {source === 'cloud' ? 'Данные аккаунта — видны на любом устройстве.' : <>Данные этого устройства. {!userId && <button className="link" onClick={onLogin}>Войди</button>}{!userId && ', чтобы сохранять в облако.'}</>}
+        {source === 'cloud' ? 'Данные аккаунта - видны на любом устройстве.' : <>Данные этого устройства. {!userId && <button className="link" onClick={onLogin}>Войди</button>}{!userId && ', чтобы сохранять в облако.'}</>}
         {error && <span className="err"> (облако недоступно: {error})</span>}
       </p>
       {!st ? (
@@ -42,7 +42,7 @@ export function Stats({ userId, nickname, onBack, onLogin }: { userId: string | 
             <div className="panel card"><b>{st.wins}</b><span>побед</span></div>
             <div className="panel card"><b>{Math.round(st.winRate * 100)}%</b><span>побед</span></div>
             <div className="panel card"><b>{Math.round(st.accuracy * 100)}%</b><span>точность</span></div>
-            <div className="panel card"><b>{st.bestShots ?? '—'}</b><span>рекорд (норок за победу)</span></div>
+            <div className="panel card"><b>{st.bestShots ?? '-'}</b><span>рекорд (норок за победу)</span></div>
             <div className="panel card"><b>{st.streak}</b><span>серия побед (лучшая {st.bestStreak})</span></div>
           </div>
           <div className="panel">

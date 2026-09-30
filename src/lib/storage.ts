@@ -20,7 +20,7 @@ function write(key: string, v: unknown) {
   try {
     if (v === null) localStorage.removeItem(key);
     else localStorage.setItem(key, JSON.stringify(v));
-  } catch { /* приватный режим и т.п. — игра работает и без сохранения */ }
+  } catch { /* приватный режим и т.п. - игра работает и без сохранения */ }
 }
 
 export const loadGame = () => {
