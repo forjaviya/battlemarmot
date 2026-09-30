@@ -1,4 +1,4 @@
-export const APP_NAME = 'Суыр';
+export const APP_NAME = 'suyr'; // «суыр» — сурок по-казахски, латиницей
 export const APP_TAGLINE = 'Прятки сурков в степи';
 
 // Публичные ключи Supabase (anon key предназначен для браузера; доступ к данным ограничен правилами RLS в базе).
