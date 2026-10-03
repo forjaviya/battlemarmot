@@ -3,16 +3,17 @@ import { canPlace, marmotAt, marmotCells, randomFleet } from '../game/board';
 import { FLEET, type Marmot as M, type Orientation } from '../game/types';
 import { Board } from '../ui/Board';
 import { Marmot } from '../ui/Marmot';
-import { MARMOT_NAMES } from '../ui/sprites';
 import { sfx } from '../lib/sound';
 import { loadLayout } from '../lib/storage';
-import { OPPONENTS } from '../config';
+import { useI18n } from '../i18n';
 import type { Difficulty } from '../game/types';
 
 /** Какие id из FLEET ещё не расставлены. */
 const unplacedIds = (placed: M[]) => FLEET.map((_, id) => id).filter((id) => !placed.some((m) => m.id === id));
 
 export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty; onStart: (m: M[]) => void; onBack: () => void }) {
+  const { t } = useI18n();
+  const S = t.setup;
   const [placed, setPlaced] = useState<M[]>([]);
   const [orientation, setOrientation] = useState<Orientation>('h');
   const [selected, setSelected] = useState<number | null>(0);
@@ -84,28 +85,27 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
   return (
     <div className="screen setup">
       <div className="screen-head">
-        <button className="btn ghost small" onClick={onBack}>Меню</button>
-        <h2>Спрячь своих сурков</h2>
-        <span className="vs">против: <b>{OPPONENTS[difficulty].name}</b></span>
+        <button className="btn ghost small" onClick={onBack}>{t.menu}</button>
+        <h2>{S.title}</h2>
+        <span className="vs">{S.vs} <b>{t.opp[difficulty].name}</b></span>
       </div>
       <p className="hint">
-        Выбери сурка и нажми на клетку. Сурки не могут стоять вплотную друг к другу - даже углами.
-        Нажми на уже поставленного, чтобы поднять его. <span className="desk-only">Правый клик или клавиша R - повернуть.</span>
+        {S.hint} <span className="desk-only">{S.hintDesk}</span>
       </p>
 
       <div className="setup-toolbar">
         <span className="now">
-          {done ? 'Готово!' : <>Ставим: <b>{selLen ? MARMOT_NAMES[selLen] : ''}</b></>}
+          {done ? S.ready : <>{S.placing} <b>{selLen ? t.marmots[selLen] : ''}</b></>}
         </span>
         <div className="tb-actions">
           <button className="btn small" onClick={() => { setOrientation((o) => (o === 'h' ? 'v' : 'h')); sfx.click(); }} disabled={done}>
-            Повернуть <span className="tb-hint">{orientation === 'h' ? '(лёжа)' : '(столбиком)'}</span>
+            {S.rotate} <span className="tb-hint">{orientation === 'h' ? S.lying : S.standing}</span>
           </button>
-          <button className="btn small" onClick={() => { setPlaced(randomFleet()); setSelected(null); sfx.place(); }}>Случайно</button>
+          <button className="btn small" onClick={() => { setPlaced(randomFleet()); setSelected(null); sfx.place(); }}>{S.random}</button>
         {lastLayout && lastLayout.length === FLEET.length && (
-          <button className="btn small" onClick={() => { setPlaced(lastLayout); sfx.place(); }}>Как в прошлый раз</button>
+          <button className="btn small" onClick={() => { setPlaced(lastLayout); sfx.place(); }}>{S.last}</button>
         )}
-        <button className="btn small subtle" onClick={() => { setPlaced([]); setSelected(0); }} disabled={!placed.length}>Очистить</button>
+        <button className="btn small subtle" onClick={() => { setPlaced([]); setSelected(0); }} disabled={!placed.length}>{S.clear}</button>
         </div>
       </div>
       <div className="setup-grid">
@@ -113,7 +113,7 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
           <Board
             board={{ marmots: placed, shots: [] }}
             kind="own"
-            label="Твоё поле"
+            label={S.yourField}
             onCell={place}
             onCellContext={rotateAt}
             onHover={(r, c) => setHover([r, c])}
@@ -125,7 +125,7 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
 
         <div className="panel dock">
           <div className="dock-head">
-            <span>{done ? 'Все сурки спрятаны!' : `Осталось спрятать: ${remaining.length}`}</span>
+            <span>{done ? S.allHidden : S.left(remaining.length)}</span>
           </div>
           <div className="dock-list">
             {grouped.map(({ len, ids }) => (
@@ -138,13 +138,13 @@ export function Setup({ difficulty, onStart, onBack }: { difficulty: Difficulty;
                 <div className="dock-sprite" style={{ width: `${len * 22}px`, height: '22px' }}>
                   <Marmot length={len} orientation="h" />
                 </div>
-                <span className="dock-name">{len === 4 ? <>Длинно-<br />сурок</> : MARMOT_NAMES[len]}</span>
+                <span className="dock-name">{len === 4 ? <>{t.longDock[0]}<br />{t.longDock[1]}</> : t.marmots[len]}</span>
                 <span className="dock-count">×{ids.length}</span>
               </button>
             ))}
           </div>
           <button className="btn primary big" disabled={!done} onClick={() => { sfx.found(); onStart(placed); }}>
-            Начать
+            {S.start}
           </button>
         </div>
       </div>

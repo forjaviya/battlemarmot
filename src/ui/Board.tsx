@@ -4,8 +4,8 @@ import { SIZE, type BoardState, type Marmot as M } from '../game/types';
 import { Marmot } from './Marmot';
 import { PEEK, PixelSprite, STAR } from './sprites';
 import { HOLE_TILE, tileFor } from './tiles';
+import { useI18n } from '../i18n';
 
-export const COLS = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К'];
 
 interface Props {
   board: BoardState;
@@ -28,6 +28,8 @@ interface Props {
 }
 
 export function Board({ board, kind, seed = 0, onCell, onCellContext, disabled, preview, onHover, onLeave, lastShot, revealAll, marmotsOverride, selectedId, compact, label }: Props) {
+  const { t } = useI18n();
+  const COLS = t.cols;
   const [focus, setFocus] = useState<[number, number] | null>(null);
   const shotMap = useMemo(() => {
     const m = new Map<number, (typeof board.shots)[number]>();
@@ -66,7 +68,7 @@ export function Board({ board, kind, seed = 0, onCell, onCellContext, disabled, 
           const bg = shot?.result === 'miss' ? HOLE_TILE : tileFor(r, c, seed);
           const clickable = !!onCell && !disabled && (kind === 'own' || (!shot && !isBlocked));
           const name = `${COLS[c]}${r + 1}`;
-          const stateText = shot ? (shot.result === 'miss' ? 'пусто' : shot.result === 'hit' ? 'найдена часть сурка' : 'сурок найден') : isBlocked ? 'точно пусто' : 'не проверено';
+          const stateText = shot ? t.cell[shot.result] : isBlocked ? t.cell.blocked : t.cell.unknown;
           return (
             <button
               key={i}

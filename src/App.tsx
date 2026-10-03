@@ -16,6 +16,7 @@ import { AuthModal } from './screens/AuthModal';
 import { Backdrop } from './ui/Scenery';
 import { BABY, PixelSprite } from './ui/sprites';
 import { ProfileMenu } from './ui/ProfileMenu';
+import { LangSwitch, useI18n } from './i18n';
 
 type Screen = 'home' | 'setup' | 'battle' | 'result' | 'stats' | 'rules';
 
@@ -26,6 +27,8 @@ export default function App() {
   const [muted, setMutedState] = useState(isMuted());
   const { user, nickname, enabled: authEnabled } = useAuth();
   const recorded = useRef<string | null>(null);
+  const { t } = useI18n();
+  const displayName = user ? nickname || t.profile.player : null;
 
   // Каждое изменение партии сохраняется локально → после обновления страницы можно продолжить
   const setGame = useCallback((g: GameState | null) => {
@@ -44,9 +47,10 @@ export default function App() {
   }, [game, user]);
 
   useEffect(() => {
-    document.title = screen === 'battle' ? `${APP_NAME} - партия` : `${APP_NAME} - прятки сурков`;
-    window.scrollTo({ top: 0 });
-  }, [screen]);
+    document.title = `${APP_NAME} - ${screen === 'battle' ? t.titleBattle : t.titleHome}`;
+  }, [screen, t]);
+
+  useEffect(() => { window.scrollTo({ top: 0 }); }, [screen]);
 
   const start = (d: Difficulty) => {
     setGame(newGame(d));
@@ -62,7 +66,7 @@ export default function App() {
         <button className="brand" onClick={() => setScreen('home')} aria-label={APP_NAME}><PixelSprite rows={BABY} className="brand-icon" /><span className="brand-text">{APP_NAME}</span></button>
         <div className="top-actions">
           <ProfileMenu
-            nickname={user ? nickname : null}
+            nickname={displayName}
             email={user?.email}
             muted={muted}
             onToggleSound={() => { setMuted(!muted); setMutedState(!muted); if (muted) sfx.click(); }}
@@ -93,12 +97,12 @@ export default function App() {
         {screen === 'result' && game && (
           <Result game={game} loggedIn={!!user || !authEnabled} onLogin={() => setAuthOpen(true)} onAgain={() => start(game.difficulty)} onMenu={() => setScreen('home')} />
         )}
-        {screen === 'stats' && <Stats userId={user?.id ?? null} nickname={nickname} onBack={() => setScreen('home')} onLogin={() => setAuthOpen(true)} />}
+        {screen === 'stats' && <Stats userId={user?.id ?? null} nickname={displayName} onBack={() => setScreen('home')} onLogin={() => setAuthOpen(true)} />}
         {screen === 'rules' && <Rules onBack={() => setScreen('home')} />}
       </main>
 
       <footer className="foot">
-        {APP_NAME} <span className="foot-sep">|</span> made for Narxoz Incubator 2026
+        {APP_NAME} <span className="foot-sep">|</span> made for Narxoz Incubator 2026 <span className="foot-sep">|</span> <LangSwitch />
       </footer>
 
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}

@@ -3,6 +3,7 @@ import { BABY, BABY_ANGRY, BALLOON, H_HEAD_GRUMPY, H_HEAD_SLEEP, HEAD, HEAD_ANGR
 import { Marmot } from './Marmot';
 import { Portrait } from './Portrait';
 import { sfx } from '../lib/sound';
+import { useI18n } from '../i18n';
 
 /** Пиксельные холмы-барханы: синусоида, округлённая до «ступенек» по 4 px. */
 function PixelHills({ color, amp, period, phase, base, height = 90, className }: { color: string; amp: number; period: number; phase: number; base: number; height?: number; className?: string }) {
@@ -84,6 +85,7 @@ const BIG = (i: number) => i % 2 === 1;
  *  спрятавшегося - выманить наружу; толстый - подпрыгнет или вытянется столбиком и нырнёт;
  *  маленький - рассердится и нырнёт в норку, подняв песок. */
 export function SteppeParade() {
+  const { t } = useI18n();
   const [burrows, setBurrows] = useState<Burrow[]>(() => [0, 1, 2, 3, 4].map((i) => ({ up: i % 2 === 0, mode: 'idle' })));
   const [splash, setSplash] = useState<Record<number, number>>({});
   const [awake, setAwake] = useState(false);
@@ -143,7 +145,7 @@ export function SteppeParade() {
   return (
     <div className="parade">
       {burrows.map((b, i) => (
-        <button key={i} className="burrow" onClick={() => poke(i)} aria-label="Сурок в норке">
+        <button key={i} className="burrow" onClick={() => poke(i)} aria-label={t.home.burrow}>
           <PixelSprite rows={MOUND_BACK} className="mound-back" />
           <div className="burrow-win">
             {b.mode === 'tall' ? (

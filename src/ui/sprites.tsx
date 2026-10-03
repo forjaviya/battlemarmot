@@ -326,9 +326,3 @@ export function marmotSegments(n: number): string[][] {
   return [HEAD, BODY_PAWS, BODY, FEET];
 }
 
-export const MARMOT_NAMES: Record<number, string> = {
-  1: 'Сурчонок',
-  2: 'Сурок',
-  3: 'Большой сурок',
-  4: 'Длинносурок',
-};

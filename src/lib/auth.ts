@@ -20,30 +20,31 @@ export function useAuth() {
     return () => data.subscription.unsubscribe();
   }, []);
 
-  const nickname: string | null = user ? (user.user_metadata?.nickname as string) || user.email?.split('@')[0] || 'Игрок' : null;
+  const nickname: string | null = user ? (user.user_metadata?.nickname as string) || user.email?.split('@')[0] || '' : null;
   return { user, nickname, ready, enabled: !!supabase };
 }
 
-const ruError = (m: string) => {
-  if (/Invalid login/i.test(m)) return 'Неверная почта или пароль';
-  if (/already registered/i.test(m)) return 'Такая почта уже зарегистрирована - попробуй войти';
-  if (/Password should be/i.test(m)) return 'Пароль должен быть не короче 6 символов';
-  if (/valid email|invalid format/i.test(m)) return 'Проверь адрес почты';
-  if (/rate limit/i.test(m)) return 'Слишком много попыток, подожди минутку';
+/** Ошибки возвращаются кодом (ключом словаря), перевод делает интерфейс. */
+const errorKey = (m: string) => {
+  if (/Invalid login/i.test(m)) return 'invalid';
+  if (/already registered/i.test(m)) return 'exists';
+  if (/Password should be/i.test(m)) return 'short';
+  if (/valid email|invalid format/i.test(m)) return 'email';
+  if (/rate limit/i.test(m)) return 'rate';
   return m;
 };
 
 export async function signIn(email: string, password: string) {
-  if (!supabase) return 'Вход временно недоступен';
+  if (!supabase) return 'unavailable';
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  return error ? ruError(error.message) : null;
+  return error ? errorKey(error.message) : null;
 }
 
 export async function signUp(email: string, password: string, nickname: string) {
-  if (!supabase) return 'Регистрация временно недоступна';
+  if (!supabase) return 'unavailable';
   const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { nickname } } });
-  if (error) return ruError(error.message);
-  if (!data.session) return 'Проверь почту и подтверди регистрацию';
+  if (error) return errorKey(error.message);
+  if (!data.session) return 'confirm';
   return null;
 }
 

@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { signIn, signUp } from '../lib/auth';
+import { useI18n } from '../i18n';
 
 export function AuthModal({ onClose }: { onClose: () => void }) {
+  const { t } = useI18n();
+  const A = t.auth;
   const [mode, setMode] = useState<'in' | 'up'>('in');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,19 +25,19 @@ export function AuthModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="modal-bg" onClick={onClose}>
       <form className="panel modal" onClick={(e) => e.stopPropagation()} onSubmit={submit}>
-        <h2>{mode === 'in' ? 'Вход' : 'Регистрация'}</h2>
-        <p className="hint">Аккаунт хранит историю партий и статистику - открой игру на телефоне или ноутбуке, и прогресс будет с тобой.</p>
+        <h2>{mode === 'in' ? A.login : A.signup}</h2>
+        <p className="hint">{A.hint}</p>
         {mode === 'up' && (
-          <label>Никнейм<input value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={20} placeholder="Например, СуркоЛов" /></label>
+          <label>{A.nickname}<input value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={20} placeholder={A.nickPh} /></label>
         )}
-        <label>Почта<input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" /></label>
-        <label>Пароль<input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} /></label>
-        {error && <p className="err">{error}</p>}
-        <button className="btn primary" disabled={busy}>{busy ? '…' : mode === 'in' ? 'Войти' : 'Создать аккаунт'}</button>
+        <label>{A.email}<input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" /></label>
+        <label>{A.password}<input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} /></label>
+        {error && <p className="err">{A.errors[error] ?? error}</p>}
+        <button className="btn primary" disabled={busy}>{busy ? '…' : mode === 'in' ? A.submitIn : A.submitUp}</button>
         <button type="button" className="link" onClick={() => { setMode(mode === 'in' ? 'up' : 'in'); setError(null); }}>
-          {mode === 'in' ? 'Нет аккаунта? Зарегистрироваться' : 'Уже есть аккаунт? Войти'}
+          {mode === 'in' ? A.toUp : A.toIn}
         </button>
-        <button type="button" className="btn ghost small" onClick={onClose}>Закрыть</button>
+        <button type="button" className="btn ghost small" onClick={onClose}>{A.close}</button>
       </form>
     </div>
   );

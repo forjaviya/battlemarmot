@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { summarize } from '../game/engine';
 import type { GameState } from '../game/types';
-import { OPPONENTS } from '../config';
+import { useI18n } from '../i18n';
 import { Board } from '../ui/Board';
 import { Marmot } from '../ui/Marmot';
 import { sfx } from '../lib/sound';
@@ -11,7 +11,9 @@ const fmtTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(
 
 export function Result({ game, onAgain, onMenu, loggedIn, onLogin }: { game: GameState; onAgain: () => void; onMenu: () => void; loggedIn: boolean; onLogin: () => void }) {
   const s = summarize(game);
-  const opp = OPPONENTS[game.difficulty];
+  const { t } = useI18n();
+  const R = t.result;
+  const opp = t.opp[game.difficulty];
   useEffect(() => { (s.won ? sfx.win : sfx.lose)(); }, [s.won]);
 
   return (
@@ -23,27 +25,27 @@ export function Result({ game, onAgain, onMenu, loggedIn, onLogin }: { game: Gam
           <span className="result-vs">vs</span>
           <Portrait who={game.difficulty} mood={s.won ? 'sad' : 'happy'} size={72} className="idle" />
         </div>
-        <h2>{s.won ? 'Все сурки найдены!' : `${opp.name} ${opp.fem ? 'оказалась' : 'оказался'} быстрее`}</h2>
-        <p className="sub">{s.won ? `Ты перехитрил(а) соперника «${opp.name}»` : 'Сурки соперника ещё прячутся - но реванш всегда возможен'}</p>
+        <h2>{s.won ? R.won : R.lost(opp.name, opp.fem)}</h2>
+        <p className="sub">{s.won ? R.subWon(opp.name) : R.subLost}</p>
         <div className="stat-row">
-          <div><b>{s.shots}</b><span>норок проверено</span></div>
-          <div><b>{Math.round(s.accuracy * 100)}%</b><span>точность</span></div>
-          <div><b>{fmtTime(s.durationSec)}</b><span>время</span></div>
+          <div><b>{s.shots}</b><span>{R.checked}</span></div>
+          <div><b>{Math.round(s.accuracy * 100)}%</b><span>{R.accuracy}</span></div>
+          <div><b>{fmtTime(s.durationSec)}</b><span>{R.time}</span></div>
         </div>
         <div className="result-actions">
-          <button className="btn primary big" onClick={onAgain} autoFocus>Давай ещё одну!</button>
-          <button className="btn" onClick={onMenu}>В меню</button>
+          <button className="btn primary big" onClick={onAgain} autoFocus>{R.again}</button>
+          <button className="btn" onClick={onMenu}>{R.toMenu}</button>
         </div>
         {!loggedIn && (
           <p className="save-hint">
-            Результат сохранён на этом устройстве. <button className="link" onClick={onLogin}>Войди</button>, чтобы видеть статистику с телефона и компьютера.
+            {R.saveA}<button className="link" onClick={onLogin}>{R.saveLink}</button>{R.saveB}
           </p>
         )}
       </div>
       {!s.won && (
         <div className="reveal">
-          <h3>Где прятались сурки соперника</h3>
-          <Board board={game.ai} kind="enemy" revealAll seed={7} compact label="Поле соперника (открыто)" />
+          <h3>{R.reveal}</h3>
+          <Board board={game.ai} kind="enemy" revealAll seed={7} compact label={R.revealLabel} />
         </div>
       )}
     </div>

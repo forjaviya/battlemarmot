@@ -511,6 +511,15 @@ main { padding-left: calc(var(--gut) + var(--axw)); padding-right: calc(var(--gu
 
 /* Главная: тексты под логотипом той же ширины, что и кнопка «Новая игра» */
 .home { --menu-w: min(380px, 100%); }
-.home .tagline { width: var(--menu-w); margin-left: auto; margin-right: auto; font-size: clamp(10px, calc((100vw - 60px) / 21), 18.1px); white-space: nowrap; letter-spacing: 0; text-align: center; }
+.home .tagline { width: var(--menu-w); margin-left: auto; margin-right: auto; font-size: clamp(9px, calc(min(380px, 100vw - 60px) / var(--chars, 21)), 18.1px); white-space: nowrap; letter-spacing: 0; text-align: center; }
 .home .lead { width: var(--menu-w); max-width: none; margin-left: auto; margin-right: auto; text-align: justify; text-align-last: center; }
 .home .hero { width: 100%; }
+
+/* Переключатель языка */
+.lang-switch { display: inline-flex; gap: 2px; vertical-align: middle; }
+.lang-switch button { border: 0; background: transparent; cursor: pointer; font-family: var(--font-title); font-size: 10px; padding: 4px 6px; color: var(--ink-soft); }
+.lang-switch button.on { background: var(--ink); color: var(--cream); }
+.lang-switch button:hover:not(.on) { color: var(--accent); }
+.pm-lang { justify-content: space-between; cursor: default; }
+.pm-lang:hover { background: none; }
+.foot .lang-switch button { font-size: 9px; }
