@@ -102,7 +102,7 @@ export default function App() {
       </main>
 
       <footer className="foot">
-        {APP_NAME} <span className="foot-sep">|</span> made for Narxoz Incubator 2026 <span className="foot-sep">|</span> <LangSwitch />
+        {APP_NAME} <span className="foot-sep">|</span> made by forjaviya <span className="foot-sep">|</span> <LangSwitch />
       </footer>
 
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
